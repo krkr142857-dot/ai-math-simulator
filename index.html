@@ -26,73 +26,71 @@
         .view-active { display: flex; }
 
         /* --- 시작 화면 (Intro View) --- */
-        .intro-container { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 15vh; position: relative; padding-bottom: 80px; }
+        .intro-container { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 8vh; position: relative; }
         
-        .title-wrapper { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 5px; }
-        .intro-logo { width: 60px; height: 60px; animation: pulse 3s infinite ease-in-out; }
-        .intro-title-brand { font-size: 3rem; font-weight: 900; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; margin: 0; letter-spacing: -1px; }
+        .title-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; margin-bottom: 30px; }
+        .brand-line { display: flex; align-items: center; gap: 15px; }
+        .intro-logo { width: 75px; height: 75px; animation: pulse 3s infinite ease-in-out; }
+        .intro-title-brand { font-size: 3.6rem; font-weight: 900; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; margin: 0; letter-spacing: -1.5px; }
+        .intro-title-main { font-size: 3.2rem; font-weight: 900; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; margin: 0; letter-spacing: -1px; }
         
-        .intro-title-main { font-size: 2.8rem; font-weight: 900; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; margin: 0; letter-spacing: -1px; }
-        
-        .intro-subtitle { font-size: 1.2rem; color: #5F6368; font-weight: 700; background: #EEF3FF; padding: 8px 20px; border-radius: 20px; border: 1px solid #D2E3FC; margin-top: 40px; margin-bottom: 50px; }
+        .intro-subtitle { font-size: 1.3rem; color: #5F6368; font-weight: 700; background: #EEF3FF; padding: 10px 25px; border-radius: 20px; border: 1px solid #D2E3FC; margin-top: 20px; margin-bottom: 40px; }
 
-        .grade-group { display: flex; gap: 15px; margin-bottom: 0; width: 100%; max-width: 750px; justify-content: center; }
-        .grade-btn { flex: 1; max-width: 220px; background: #FFFFFF; border: 2px solid #E3E8EF; color: #5F6368; padding: 14px; border-radius: 12px; font-size: 1.15rem; font-weight: 800; cursor: pointer; transition: all 0.2s; position: relative; }
+        .grade-group { display: flex; gap: 15px; width: 100%; max-width: 800px; justify-content: center; }
+        .grade-btn { flex: 1; height: 65px; background: #FFFFFF; border: 2px solid #E3E8EF; color: #5F6368; border-radius: 14px; font-size: 1.2rem; font-weight: 800; cursor: pointer; transition: all 0.2s; }
         .grade-btn:hover { border-color: var(--gemini-blue); color: var(--gemini-blue); background: #F8FAFD; }
         .grade-btn.active { background: var(--gemini-blue); border-color: var(--gemini-blue); color: white; box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3); }
 
-        .chapter-group-wrapper { position: relative; min-height: 120px; width: 100%; max-width: 900px; display: flex; flex-direction: column; align-items: center; margin-top: 40px; margin-bottom: 40px; }
-        #tree-svg { position: absolute; top: -30px; left: 0; width: 100%; height: 30px; pointer-events: none; overflow: visible; }
+        .chapter-group-wrapper { position: relative; min-height: 120px; width: 100%; max-width: 1200px; display: flex; flex-direction: column; align-items: center; margin-top: 40px; margin-bottom: 20px; }
+        #tree-svg { position: absolute; top: -35px; left: 0; width: 100%; height: 35px; pointer-events: none; overflow: visible; }
         
-        .chapter-group { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; width: 100%; position: relative; z-index: 2; }
-        .chapter-btn { background: #FFFFFF; border: 2px solid #E3E8EF; color: #5F6368; padding: 12px 20px; border-radius: 10px; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .chapter-group { display: flex; gap: 10px; flex-wrap: nowrap; justify-content: center; width: auto; position: relative; z-index: 2; }
+        .chapter-btn { background: #FFFFFF; border: 2px solid #E3E8EF; color: #5F6368; padding: 12px 18px; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
         .chapter-btn:hover { border-color: var(--gemini-blue); color: var(--gemini-blue); }
-        .chapter-btn.active { background: #EEF3FF; border-color: var(--gemini-blue); color: var(--gemini-blue); font-weight: 800; box-shadow: 0 2px 10px rgba(26, 115, 232, 0.15); }
+        .chapter-btn.active { background: #EEF3FF; border-color: var(--gemini-blue); color: var(--gemini-blue); font-weight: 800; }
 
-        .start-btn { background: var(--gemini-blue); color: white; padding: 18px 50px; border-radius: 15px; font-size: 1.4rem; font-weight: 800; border: none; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 20px rgba(26, 115, 232, 0.3); z-index: 5; }
-        .start-btn:disabled { background: #DADCE0; color: #9AA0A6; box-shadow: none; cursor: not-allowed; transform: none !important; }
-        .start-btn:hover:not(:disabled) { transform: translateY(-3px); filter: brightness(1.1); }
+        .start-btn { background: var(--gemini-blue); color: white; padding: 18px 65px; border-radius: 18px; font-size: 1.5rem; font-weight: 800; border: none; cursor: pointer; transition: all 0.3s; margin-top: 10px; }
+        .start-btn:disabled { background: #DADCE0; color: #9AA0A6; cursor: not-allowed; opacity: 0.7; }
 
-        .author-footer { position: absolute; bottom: 20px; right: 20px; text-align: right; font-size: 1.1rem; color: #5F6368; font-weight: 600; line-height: 1.4; z-index: 1; }
+        .author-footer { position: absolute; bottom: 30px; right: 40px; text-align: right; font-size: 1.15rem; color: #5F6368; font-weight: 600; line-height: 1.5; }
 
         /* --- 메인 시뮬레이터 (Main View) --- */
-        #hidden-reset { position: absolute; top: 0; right: 0; width: 40px; height: 40px; background: transparent; border: 1px solid transparent; cursor: pointer; border-radius: 6px; z-index: 100; transition: border 0.2s; }
-        #hidden-reset:hover { border: 1px solid rgba(0, 0, 0, 0.15); }
+        #hidden-reset { position: absolute; top: 0; right: 0; width: 50px; height: 50px; background: transparent; border: 1px solid transparent; cursor: pointer; z-index: 100; transition: border 0.2s; }
+        #hidden-reset:hover { border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 8px; }
 
-        .header { display: flex; width: 100%; height: 60px; margin-bottom: 15px; flex-shrink: 0; align-items: center; position: relative; }
-        .header-left { width: 50%; display: flex; align-items: center; gap: 12px; }
-        .header-right { width: 50%; display: flex; justify-content: center; align-items: center; }
+        .header { display: flex; width: 100%; height: 60px; margin-bottom: 15px; flex-shrink: 0; align-items: center; }
+        .header-left { flex: 1; display: flex; align-items: center; gap: 12px; }
+        .header-right { flex: 1; display: flex; justify-content: center; align-items: center; }
 
-        .gemini-text { font-size: 2rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; letter-spacing: -1px; }
-        .separator { font-size: 1.8rem; color: #DADCE0; margin: 0 10px; font-weight: 300; }
-        .sub-text { font-size: 1.5rem; color: #5F6368; font-weight: 500; }
+        .gemini-text-main { font-size: 2.2rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; letter-spacing: -1px; }
+        .separator { font-size: 1.8rem; color: #DADCE0; margin: 0 10px; }
+        .sub-text-header { font-size: 1.5rem; color: #5F6368; font-weight: 500; }
 
-        .timer-container { background: #E8F0FE; padding: 6px 20px; border-radius: 12px; border: 2px solid var(--gemini-blue); min-width: 100px; text-align: center; }
-        #timer { font-size: 1.5rem; font-weight: 800; color: var(--gemini-blue); font-variant-numeric: tabular-nums; }
+        .timer-container { background: #E8F0FE; padding: 6px 25px; border-radius: 12px; border: 2px solid var(--gemini-blue); min-width: 120px; text-align: center; }
+        #timer { font-size: 1.6rem; font-weight: 800; color: var(--gemini-blue); }
 
         .container { display: flex; flex: 1; gap: 20px; min-height: 0; overflow: hidden; }
-        .left-col { flex: 1; display: flex; flex-direction: column; gap: 15px; min-height: 0; }
-        .right-col { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+        .left-col, .right-col { flex: 1; display: flex; flex-direction: column; gap: 15px; min-height: 0; min-width: 0; }
 
-        .section-card { background: var(--card); border-radius: 24px; padding: 25px; box-shadow: 0 8px 30px rgba(0,0,0,0.03); border: 1px solid #E3E8EF; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+        .section-card { background: var(--card); border-radius: 24px; padding: 25px; box-shadow: 0 8px 30px rgba(0,0,0,0.03); border: 1px solid #E3E8EF; display: flex; flex-direction: column; position: relative; overflow: hidden; height: 100%; }
         
         .prob-area { flex: 0 0 28%; justify-content: flex-start; }
         .hint-area { flex: 1; min-height: 0; }
 
         .label-box { display: inline-block; background: #EEF3FF; color: var(--gemini-blue); padding: 6px 15px; border-radius: 8px; font-weight: 800; font-size: 1.1rem; margin-bottom: 10px; border: 1px solid #D2E3FC; width: fit-content; flex-shrink: 0; }
+        .hint-label { display: inline-block; padding: 4px 12px; border-radius: 6px; background: var(--gradient); color: white; font-weight: 700; font-size: 0.9rem; margin-bottom: 8px; }
 
-        .math-container { flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 0 10px; }
-        .math-main { font-size: clamp(1.8rem, 3vw, 3.2rem) !important; font-weight: 900; color: #000000 !important; margin: 0; line-height: 1.2; text-align: center; }
+        .math-container { flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .math-main { font-size: clamp(1.8rem, 3.5vw, 3.5rem) !important; font-weight: 900; color: #000000 !important; margin: 0; text-align: center; }
         
-        .placeholder-text { display: flex; align-items: center; gap: 10px; font-size: 1.3rem; color: #9AA0A6; font-weight: 600; justify-content: center; flex-wrap: wrap; }
-        .trigger-btn { background: var(--gemini-blue); color: white; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 1rem; display: inline-block; }
+        .placeholder-text { font-size: 1.3rem; color: #9AA0A6; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .trigger-btn { background: var(--gemini-blue); color: white; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 1.1rem; }
 
-        .hint-label { display: inline-block; padding: 4px 12px; border-radius: 6px; background: var(--gradient); color: white; font-weight: 700; font-size: 0.9rem; margin-bottom: 5px; }
         .hint-item { padding: 15px; border-radius: 12px; background: #F8F9FA; border: 1px solid #E9ECEF; display: none; animation: fadeIn 0.4s ease; margin-bottom: 10px; }
-        .hint-text { font-size: 1.2rem; color: #3C4043; line-height: 1.5; font-weight: 500; }
+        /* [수정] 힌트 텍스트 줄바꿈 최적화 */
+        .hint-text { font-size: 1.2rem; color: #3C4043; line-height: 1.5; font-weight: 500; word-break: keep-all; overflow-wrap: break-word; }
 
-        .ai-area { flex: 1; border: 2px solid #D2E3FC; height: 100%; }
-
+        .ai-area { border: 2px solid #D2E3FC; }
         .ai-loading-container { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 20px; }
         .loader-wrapper { position: relative; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; }
         .c-ring { 
@@ -103,27 +101,29 @@
         }
         .diamond-img { width: 70px; height: 70px; z-index: 2; animation: pulse 2s infinite ease-in-out; }
 
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
         .loading-ment { font-size: 2rem; font-weight: 800; color: var(--gemini-blue); text-align: center; }
 
+        /* [수정] 정답 박스 하단 고정을 위해 flex 속성 부여 */
         .sol-content { display: none; flex-direction: column; height: 100%; overflow: hidden; padding-top: 10px; }
-        .synth-table { margin: 10px auto; border-collapse: collapse; font-size: 1.6rem; }
-        .synth-table td { padding: 6px 18px; text-align: center; }
+        
+        .synth-table { margin: 8px auto; border-collapse: collapse; font-size: 1.5rem; }
+        .synth-table td { padding: 4px 16px; text-align: center; }
         .synth-border-left { border-left: 3px solid #5F6368; }
         .synth-border-bottom { border-bottom: 3px solid #5F6368; }
         .remainder { color: #D93025; font-weight: bold; border: 2px solid #FAD2CF; border-radius: 8px; }
 
-        .final-ans { background: #E8F0FE; padding: 15px; border-radius: 12px; font-size: 1.8rem; font-weight: 900; color: #1967D2; text-align: center; margin-top: auto; border: 1px solid #D2E3FC; flex-shrink: 0; }
+        /* [수정] 정답 박스 하단 끝으로 밀어내기 및 여백 최적화 */
+        .final-ans { background: #E8F0FE; padding: 10px; border-radius: 12px; font-size: 1.7rem; font-weight: 900; color: #1967D2; text-align: center; margin-top: auto; margin-bottom: 5px; border: 1px solid #D2E3FC; flex-shrink: 0; }
 
         .controls { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; background: #202124; padding: 10px; border-radius: 15px; flex-shrink: 0; }
-        .ctrl-btn { padding: 8px 5px; font-size: 0.85rem; font-weight: 700; border-radius: 8px; border: none; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+        .ctrl-btn { padding: 10px 5px; font-size: 0.9rem; font-weight: 700; border-radius: 8px; border: none; cursor: pointer; transition: 0.2s; white-space: nowrap; }
         .btn-blue { background: var(--gemini-blue); color: white; }
         .btn-gray { background: #5F6368; color: white; }
         .btn-green { background: #34A853; color: white; }
-        .ctrl-btn:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.1); }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -144,45 +144,38 @@
 <div id="intro-view" class="view-section view-active">
     <div class="intro-container">
         <div class="title-wrapper">
-            <img src="gemini-color.png" class="intro-logo" alt="Gemini Logo">
-            <span class="intro-title-brand">Gemini</span>
+            <div class="brand-line">
+                <img src="gemini-color.png" class="intro-logo" alt="Gemini Logo">
+                <span class="intro-title-brand">Gemini</span>
+            </div>
+            <h1 class="intro-title-main">AI 협업 수학 시뮬레이터</h1>
         </div>
-        <h1 class="intro-title-main">AI 협업 수학 시뮬레이터</h1>
         <div class="intro-subtitle">2022 개정 수학과 교육과정</div>
-
         <div class="grade-group">
             <button class="grade-btn" onclick="selectGrade('g1', this)">고1 공통수학</button>
             <button class="grade-btn" onclick="selectGrade('g2', this)">고2 대수/미적분I</button>
-            <button class="grade-btn" onclick="selectGrade('g3', this)">고3 미적분II/기하</button>
+            <button class="grade-btn" onclick="selectGrade('g3', this)">고3 미적분II/확통/기하</button>
         </div>
-
         <div class="chapter-group-wrapper" id="chapter-wrapper">
             <svg id="tree-svg"></svg>
             <div id="chapter-container" class="chapter-group"></div>
         </div>
-
         <button id="start-app-btn" class="start-btn" disabled onclick="initSimulator()">시뮬레이터 시작하기</button>
-
-        <div class="author-footer">
-            수학교육과 20200522<br>이상진
-        </div>
+        <div class="author-footer">수학교육과 20200522<br>이상진</div>
     </div>
 </div>
 
 <div id="main-view" class="view-section">
     <button id="hidden-reset" onclick="resetDatabase()" title="초기화"></button>
-
     <div class="header">
         <div class="header-left">
             <img src="gemini-color.png" width="40" height="40" alt="logo">
-            <span class="gemini-text">Gemini</span>
+            <span class="gemini-text-main">Gemini</span>
             <span class="separator">|</span>
-            <span class="sub-text">AI 협업 수학 시뮬레이터 : 조립제법</span>
+            <span class="sub-text-header">AI 협업 수학 시뮬레이터 : 조립제법</span>
         </div>
         <div class="header-right">
-            <div class="timer-container">
-                <div id="timer">05:00</div>
-            </div>
+            <div class="timer-container"><div id="timer">05:00</div></div>
         </div>
     </div>
 
@@ -191,29 +184,23 @@
             <div class="section-card prob-area">
                 <div class="label-box">탐구 과제 : 조립제법을 이용한 고차방정식의 해 구하기</div>
                 <div id="prob-loading" style="display:none; flex:1; align-items:center; justify-content:center; flex-direction:column;">
-                    <div class="loader-wrapper" style="width:40px; height:40px;">
-                        <div class="c-ring" style="border-width:4px;"></div>
-                    </div>
+                    <div class="loader-wrapper" style="width:45px; height:45px;"><div class="c-ring" style="border-width:5px;"></div></div>
                 </div>
                 <div class="math-container">
-                    <div id="math-display" class="placeholder-text">
-                        하단의 <span class="trigger-btn">🎲 문제 생성</span> 버튼을 클릭하세요.
-                    </div>
+                    <div id="math-display" class="placeholder-text">하단의 <span class="trigger-btn">🎲 문제 생성</span> 버튼을 클릭하세요.</div>
                 </div>
             </div>
-
             <div class="section-card hint-area">
                 <div class="label-box">AI Scaffolding</div>
                 <div id="hint-1" class="hint-item">
-                    <div class="hint-label">Step 1: 인수정리</div>
+                    <div class="hint-label">Step 1: 탐색 전략</div>
                     <div class="hint-text" id="h1-text"></div>
                 </div>
                 <div id="hint-2" class="hint-item">
-                    <div class="hint-label">Step 2: 조립제법 도구</div>
+                    <div class="hint-label">Step 2: 실행 가이드</div>
                     <div class="hint-text" id="h2-text"></div>
                 </div>
             </div>
-
             <div class="controls">
                 <button class="ctrl-btn btn-blue" id="gen-btn" onclick="fetchProblemData()">🎲 문제 생성</button>
                 <button class="ctrl-btn btn-gray" id="timer-btn" onclick="toggleTimer()">⏳ 타이머</button>
@@ -223,26 +210,18 @@
                 <button class="ctrl-btn btn-green" id="next-btn" onclick="resetWorkspace()">⮕ 다음문제</button>
             </div>
         </div>
-
         <div class="right-col">
             <div class="section-card ai-area">
                 <div style="display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 10px;">
                     <div class="label-box" style="margin: 0;">AI 풀이 결과</div>
-                    <span id="ai-sol-label" style="position: absolute; left: 0; color:var(--gemini-blue); font-weight:800; font-size:1.1rem; display:none;">
-                        상세 사고 과정 분석
-                    </span>
+                    <span id="ai-sol-label" style="position: absolute; left: 0; color:var(--gemini-blue); font-weight:800; font-size:1.1rem; display:none;">상세 사고 과정 분석</span>
                 </div>
-                
                 <div id="ai-loading" class="ai-loading-container">
-                    <div class="loader-wrapper">
-                        <div class="c-ring"></div>
-                        <img src="gemini-color.png" class="diamond-img" alt="gemini">
-                    </div>
+                    <div class="loader-wrapper"><div class="c-ring"></div><img src="gemini-color.png" class="diamond-img" alt="gemini"></div>
                     <div id="ai-ment" class="loading-ment">수학적 구조 분석 중...</div>
                 </div>
-
                 <div id="sol-view" class="sol-content">
-                    <div id="sol-stream" style="font-size:1.15rem; line-height:1.7; padding: 0 10px;"></div>
+                    <div id="sol-stream" style="font-size:1.1rem; line-height:1.6; padding: 0 5px;"></div>
                     <div id="sol-footer" class="final-ans" style="display:none;"></div>
                 </div>
             </div>
@@ -251,15 +230,45 @@
 </div>
 
 <script>
-    /* --- Intro Logic --- */
     const curriculumData = {
-        'g1': ["다항식", "방정식과 부등식", "도형의 방정식", "집합과 명제", "함수와 그래프"],
-        'g2': ["지수함수와 로그함수", "삼각함수", "수열", "함수의 극한과 연속", "미분과 적분"],
-        'g3': ["경우의 수와 확률", "통계", "이차곡선", "공간도형과 공간좌표"]
+        'g1': ["다항식", "방정식과 부등식", "경우의 수", "행렬", "도형의 방정식", "집합과 명제", "함수와 그래프"],
+        'g2': ["지수함수와 로그함수", "삼각함수", "수열", "함수의 극한과 연속", "미분", "적분"],
+        'g3': ["수열의 극한", "미분법", "적분법", "경우의 수", "확률", "통계", "이차곡선", "공간도형과 공간좌표", "벡터"]
     };
 
-    let selectedGrade = null;
-    let selectedChapter = null;
+    const problemDatabase = [
+        { id: 1, q: "x^3 - 6x^2 + 11x - 6 = 0", h1: "인수정리를 위해 계수들의 총합을 구해보세요. 총합이 0인 경우 어떤 값이 근이 될까요?", h2: "$x=1$을 대입하면 성립합니다. 1을 기준으로 조립제법을 시작하세요.", k: 1, coeffs: [1, -6, 11, -6], mid: ["", 1, -5, 6], res: [1, -5, 6, 0], factor: "(x^2 - 5x + 6)", factorFinal: "(x-2)(x-3)", ans: "x = 1, 2, 3" },
+        { id: 2, q: "2x^3 - 5x^2 + x + 2 = 0", h1: "상수항($2$)의 약수를 최고차항($2$)의 약수로 나눈 후보($\pm 1, \pm 2, \pm 1/2$)를 대입해 보세요.", h2: "$x=2$를 대입하면 식이 성립합니다. 2로 조립제법을 수행하세요.", k: 2, coeffs: [2, -5, 1, 2], mid: ["", 4, -2, -2], res: [2, -1, -1, 0], factor: "(2x^2 - x - 1)", factorFinal: "(2x+1)(x-1)", ans: "x = 2, 1, -1/2" },
+        { id: 3, q: "x^3 - 3x + 2 = 0", h1: "이차항이 생략된 경우입니다. 계수의 합을 구하여 간단한 정수근이 존재하는지 확인하세요.", h2: "이차항 자리에 0을 쓰고 $x=1$로 조립제법을 진행합니다.", k: 1, coeffs: [1, 0, -3, 2], mid: ["", 1, 1, -2], res: [1, 1, -2, 0], factor: "(x^2 + x - 2)", factorFinal: "(x+2)(x-1)", ans: "x = 1(중근), -2" },
+        { id: 4, q: "3x^3 - 2x^2 - 7x - 2 = 0", h1: "유리수 근 정리를 떠올려 보세요. 상수항이 $-2$이므로 대입할 만한 정수와 분수 후보를 추려보세요.", h2: "$x=2$일 때 식이 0이 됩니다. $x=2$로 조립제법을 실행하세요.", k: 2, coeffs: [3, -2, -7, -2], mid: ["", 6, 8, 2], res: [3, 4, 1, 0], factor: "(3x^2 + 4x + 1)", factorFinal: "(3x+1)(x+1)", ans: "x = 2, -1, -1/3" },
+        { id: 5, q: "x^3 - x^2 - 4x + 4 = 0", h1: "다항식 $P(x)$에 $1$이나 $-1$을 대입하여 인수정리가 성립하는지 먼저 확인하세요.", h2: "$x=1$로 조립제법을 수행하면 나머지가 0이 됩니다.", k: 1, coeffs: [1, -1, -4, 4], mid: ["", 1, 0, -4], res: [1, 0, -4, 0], factor: "(x^2 - 4)", factorFinal: "(x-2)(x+2)", ans: "x = 1, 2, -2" },
+        { id: 6, q: "4x^3 - 8x^2 - x + 2 = 0", h1: "최고차항 계수가 4입니다. 상수항의 약수 중에서 근을 찾아보고 정수가 없다면 분수를 고려하세요.", h2: "$x=2$를 대입하면 식이 성립합니다. 2를 제수로 조립제법 하세요.", k: 2, coeffs: [4, -8, -1, 2], mid: ["", 8, 0, -2], res: [4, 0, -1, 0], factor: "(4x^2 - 1)", factorFinal: "(2x-1)(2x+1)", ans: "x = 2, 1/2, -1/2" },
+        { id: 7, q: "x^3 - 7x - 6 = 0", h1: "이차항 계수가 0일 때의 조립제법 배치에 주의하세요. 상수항 $-6$의 음의 약수 중 근을 찾아보세요.", h2: "$x=-1$을 대입하면 성립합니다. $-1$로 조립제법을 시작합니다.", k: -1, coeffs: [1, 0, -7, -6], mid: ["", -1, 1, 6], res: [1, -1, -6, 0], factor: "(x^2 - x - 6)", factorFinal: "(x-3)(x+2)", ans: "x = -1, 3, -2" },
+        { id: 8, q: "2x^3 + 3x^2 - 8x + 3 = 0", h1: "계수를 모두 더해보세요. 합이 0이 나온다면 어떤 일차식을 인수로 가지게 될까요?", h2: "$x=1$로 연산을 진행하면 몫이 이차식으로 깔끔하게 도출됩니다.", k: 1, coeffs: [2, 3, -8, 3], mid: ["", 2, 5, -3], res: [2, 5, -3, 0], factor: "(2x^2 + 5x - 3)", factorFinal: "(2x-1)(x+3)", ans: "x = 1, 1/2, -3" },
+        { id: 9, q: "x^3 - 3x^2 + 4 = 0", h1: "일차항이 생략되었습니다. 인수정리를 위해 $x$에 $-1$ 또는 $2$를 대입하여 계산해 보세요.", h2: "$x=-1$을 대입하면 0이 됩니다. 계수 $[1, -3, 0, 4]$를 연산하세요.", k: -1, coeffs: [1, -3, 0, 4], mid: ["", -1, 4, -4], res: [1, -4, 4, 0], factor: "(x^2 - 4x + 4)", factorFinal: "(x-2)^2", ans: "x = -1, 2(중근)" },
+        { id: 10, q: "5x^3 - 8x^2 - 27x + 18 = 0", h1: "최고차항 계수가 5이므로 분수 근($3/5$ 등)의 가능성이 큽니다. 먼저 정수 후보 중 $3$을 대입해 보세요.", h2: "$x=3$으로 조립제법을 실행하면 인수분해의 실마리가 풀립니다.", k: 3, coeffs: [5, -8, -27, 18], mid: ["", 15, 21, -18], res: [5, 7, -6, 0], factor: "(5x^2 + 7x - 6)", factorFinal: "(5x-3)(x+2)", ans: "x = 3, 3/5, -2" },
+        { id: 11, q: "x^3 + 2x^2 - 5x - 6 = 0", h1: "상수항의 약수인 $\pm 1, \pm 2, \pm 3, \pm 6$ 중에서 식을 0으로 만드는 값을 탐색하세요.", h2: "$x=2$를 대입하면 식이 참이 됩니다. 2로 조립제법을 시작하세요.", k: 2, coeffs: [1, 2, -5, -6], mid: ["", 2, 8, 6], res: [1, 4, 3, 0], factor: "(x^2 + 4x + 3)", factorFinal: "(x+1)(x+3)", ans: "x = 2, -1, -3" },
+        { id: 12, q: "3x^3 + 8x^2 - 15x + 4 = 0", h1: "계수들의 총합을 먼저 확인하는 습관을 들이세요. 합이 0인가요?", h2: "$x=1$이 근이므로, 1을 기준으로 계수들을 조립제법 합니다.", k: 1, coeffs: [3, 8, -15, 4], mid: ["", 3, 11, -4], res: [3, 11, -4, 0], factor: "(3x^2 + 11x - 4)", factorFinal: "(3x-1)(x+4)", ans: "x = 1, 1/3, -4" },
+        { id: 13, q: "x^3 - 19x - 30 = 0", h1: "이차항 계수에 0을 넣는 것을 잊지 마세요. 상수항의 약수 중 근을 찾아보세요.", h2: "$x=-2$를 대입하면 성립합니다. $-2$로 조립제법을 진행하세요.", k: -2, coeffs: [1, 0, -19, -30], mid: ["", -2, 4, 30], res: [1, -2, -15, 0], factor: "(x^2 - 2x - 15)", factorFinal: "(x-5)(x+3)", ans: "x = -2, 5, -3" },
+        { id: 14, q: "2x^3 - x^2 - 13x - 6 = 0", h1: "상수항의 약수를 최고차항으로 나눈 유리수 근을 고려하여 $x$값을 대입해 보세요.", h2: "$x=3$일 때 식이 성립합니다. 3을 제수로 하여 연산하세요.", k: 3, coeffs: [2, -1, -13, -6], mid: ["", 6, 15, 6], res: [2, 5, 2, 0], factor: "(2x^2 + 5x + 2)", factorFinal: "(2x+1)(x+2)", ans: "x = 3, -1/2, -2" },
+        { id: 15, q: "x^3 + 4x^2 + x - 6 = 0", h1: "계수들을 보았을 때, 가장 먼저 대입해 볼 만한 기초적인 정수 근은 무엇일까요?", h2: "계수 총합이 0이므로 $x=1$로 조립제법을 수행합니다.", k: 1, coeffs: [1, 4, 1, -6], mid: ["", 1, 5, 6], res: [1, 5, 6, 0], factor: "(x^2 + 5x + 6)", factorFinal: "(x+2)(x+3)", ans: "x = 1, -2, -3" },
+        { id: 16, q: "6x^3 - x^2 - 12x - 5 = 0", h1: "계수가 크고 복잡하지만 음수 근이 있을 확률이 높습니다. $-1$부터 대입해 보세요.", h2: "$x=-1$로 계수 행렬을 계산하면 나머지가 0이 도출됩니다.", k: -1, coeffs: [6, -1, -12, -5], mid: ["", -6, 7, 5], res: [6, -7, -5, 0], factor: "(6x^2 - 7x - 5)", factorFinal: "(2x+1)(3x-5)", ans: "x = -1, -1/2, 5/3" },
+        { id: 17, q: "x^3 - x^2 - 10x - 8 = 0", h1: "상수항이 $-8$이므로 $\pm 1, \pm 2$ 주변에서 근이 생성되는지 확인해 보세요.", h2: "$x=-1$을 대입하면 0이 됩니다. $-1$을 기준으로 조립제법 하세요.", k: -1, coeffs: [1, -1, -10, -8], mid: ["", -1, 2, 8], res: [1, -2, -8, 0], factor: "(x^2 - 2x - 8)", factorFinal: "(x-4)(x+2)", ans: "x = -1, 4, -2" },
+        { id: 18, q: "2x^3 - 3x^2 - 11x + 6 = 0", h1: "상수항($6$)의 약수를 대입하여 인수정리를 시도하세요. 양의 정수 $3$을 추천합니다.", h2: "$x=3$으로 조립제법을 전개하여 이차식을 얻어내세요.", k: 3, coeffs: [2, -3, -11, 6], mid: ["", 6, 9, -6], res: [2, 3, -2, 0], factor: "(2x^2 + 3x - 2)", factorFinal: "(2x-1)(x+2)", ans: "x = 3, 1/2, -2" },
+        { id: 19, q: "x^3 - 4x^2 - 7x + 10 = 0", h1: "다항식의 모든 계수 합을 구해보세요. 그 값이 0이라면 어떤 일차 인수가 숨어 있을까요?", h2: "$x=1$을 대입하면 성립합니다. 1로 연산을 수행하세요.", k: 1, coeffs: [1, -4, -7, 10], mid: ["", 1, -3, -10], res: [1, -3, -10, 0], factor: "(x^2 - 3x - 10)", factorFinal: "(x-5)(x+2)", ans: "x = 1, 5, -2" },
+        { id: 20, q: "3x^3 - x^2 - 12x + 4 = 0", h1: "유리수 근 정리($k = p/q$)를 활용하세요. 상수항이 4이므로 $2$를 대입해 봅니다.", h2: "$x=2$일 때 방정식이 0이 됩니다. 2로 조립제법을 실행하세요.", k: 2, coeffs: [3, -1, -12, 4], mid: ["", 6, 10, -4], res: [3, 5, -2, 0], factor: "(3x^2 + 5x - 2)", factorFinal: "(3x-1)(x+2)", ans: "x = 2, 1/3, -2" },
+        { id: 21, q: "x^3 - 13x + 12 = 0", h1: "이차항이 비어 있습니다. 계수의 합을 통해 바로 근을 유추할 수 있는지 보세요.", h2: "계수 $[1, 0, -13, 12]$를 $x=1$로 조립제법 하여 분석합니다.", k: 1, coeffs: [1, 0, -13, 12], mid: ["", 1, 1, -12], res: [1, 1, -12, 0], factor: "(x^2 + x - 12)", factorFinal: "(x+4)(x-3)", ans: "x = 1, -4, 3" },
+        { id: 22, q: "2x^3 + 9x^2 + 3x - 4 = 0", h1: "음의 정수 근을 찾아보세요. 상수항이 $-4$이므로 $-1$ 또는 $-2$를 권장합니다.", h2: "$x=-1$을 대입하면 식이 성립합니다. $-1$로 조립제법 하세요.", k: -1, coeffs: [2, 9, 3, -4], mid: ["", -2, -7, 4], res: [2, 7, -4, 0], factor: "(2x^2 + 7x - 4)", factorFinal: "(2x-1)(x+4)", ans: "x = -1, 1/2, -4" },
+        { id: 23, q: "x^3 + 3x^2 - 4 = 0", h1: "일차항이 누락된 형태입니다. 간단한 정수를 넣어 인수정리를 시도하세요.", h2: "$x=1$을 대입하면 0이 됩니다. 계수 $[1, 3, 0, -4]$를 1로 연산하세요.", k: 1, coeffs: [1, 3, 0, -4], mid: ["", 1, 4, 4], res: [1, 4, 4, 0], factor: "(x^2 + 4x + 4)", factorFinal: "(x+2)^2", ans: "x = 1, -2(중근)" },
+        { id: 24, q: "4x^3 - 4x^2 - 7x - 2 = 0", h1: "유리수 근 후보군 중 $2$를 선택하여 식의 성립 여부를 확인하세요.", h2: "$x=2$로 조립제법을 수행하여 남은 이차식을 찾아냅니다.", k: 2, coeffs: [4, -4, -7, -2], mid: ["", 8, 8, 2], res: [4, 4, 1, 0], factor: "(4x^2 + 4x + 1)", factorFinal: "(2x+1)^2", ans: "x = 2, -1/2(중근)" },
+        { id: 25, q: "x^3 + 6x^2 + 11x + 6 = 0", h1: "모든 항이 양수입니다. 그렇다면 근은 반드시 어떤 수(양/음)여야 할까요?", h2: "$x=-1$을 대입하면 나머지가 0이 됩니다. $-1$로 조립제법을 시작하세요.", k: -1, coeffs: [1, 6, 11, 6], mid: ["", -1, -5, -6], res: [1, 5, 6, 0], factor: "(x^2 + 5x + 6)", factorFinal: "(x+2)(x+3)", ans: "x = -1, -2, -3" }
+    ];
+
+    let problemHistory = new Set();
+    let activeProblem = null;
+    let activePreviousProblem = null;
+    let timerInstance = null;
+    let timeRemaining = 300;
 
     function selectGrade(gradeKey, btnElement) {
         document.querySelectorAll('.grade-btn').forEach(btn => btn.classList.remove('active'));
@@ -267,10 +276,8 @@
         selectedGrade = gradeKey;
         selectedChapter = null;
         updateStartButton();
-
         const container = document.getElementById('chapter-container');
         container.innerHTML = '';
-        
         curriculumData[gradeKey].forEach(chapter => {
             const btn = document.createElement('button');
             btn.className = 'chapter-btn';
@@ -278,9 +285,7 @@
             btn.onclick = () => selectChapter(chapter, btn);
             container.appendChild(btn);
         });
-
         requestAnimationFrame(() => drawTreeLine(btnElement));
-        window.addEventListener('resize', () => drawTreeLine(btnElement), { once: true });
     }
 
     function selectChapter(chapterName, btnElement) {
@@ -298,39 +303,27 @@
     function drawTreeLine(activeGradeBtn) {
         const svg = document.getElementById('tree-svg');
         const chapters = document.querySelectorAll('.chapter-btn');
-        
-        if (!activeGradeBtn || chapters.length === 0) {
-            svg.style.display = 'none';
-            return;
-        }
-        
-        svg.style.display = 'block';
+        if (!activeGradeBtn || chapters.length === 0) return;
         svg.innerHTML = '';
         const svgRect = svg.getBoundingClientRect();
         const gradeRect = activeGradeBtn.getBoundingClientRect();
-        
         const startX = gradeRect.left + gradeRect.width / 2 - svgRect.left;
         const firstRect = chapters[0].getBoundingClientRect();
         const lastRect = chapters[chapters.length - 1].getBoundingClientRect();
-        
         const minX = firstRect.left + firstRect.width / 2 - svgRect.left;
         const maxX = lastRect.left + lastRect.width / 2 - svgRect.left;
-        
         const lineMinX = Math.min(minX, startX);
         const lineMaxX = Math.max(maxX, startX);
-        
-        let pathData = `M ${startX} 0 L ${startX} 15 M ${lineMinX} 15 L ${lineMaxX} 15 `;
-        
+        let pathData = `M ${startX} 0 L ${startX} 18 M ${lineMinX} 18 L ${lineMaxX} 18 `;
         chapters.forEach(ch => {
             const r = ch.getBoundingClientRect();
             const cx = r.left + r.width / 2 - svgRect.left;
-            pathData += `M ${cx} 15 L ${cx} 30 `;
+            pathData += `M ${cx} 18 L ${cx} 35 `;
         });
-        
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttribute('d', pathData);
         path.setAttribute('stroke', '#1A73E8');
-        path.setAttribute('stroke-width', '2');
+        path.setAttribute('stroke-width', '2.5');
         path.setAttribute('fill', 'none');
         svg.appendChild(path);
     }
@@ -340,41 +333,6 @@
         document.getElementById('main-view').classList.add('view-active');
         renderMath();
     }
-
-    /* --- Simulator Logic --- */
-    const problemDatabase = [
-        { id: 1, q: "2x^3 - x^2 - 8x + 4 = 0", h1: "최고차항 계수 2와 상수항 4의 약수 비를 이용하여 식을 0으로 만드는 $x$를 탐색하세요.", h2: "$x=2$ 대입 시 성립합니다. 2를 제수로 조립제법을 실행하세요.", k: 2, coeffs: [2, -1, -8, 4], mid: ["", 4, 6, -4], res: [2, 3, -2, 0], factor: "(2x^2 + 3x - 2)", factorFinal: "(2x-1)(x+2)", ans: "x = 2, -2, \\frac{1}{2}" },
-        { id: 2, q: "3x^3 - 4x^2 - 17x + 6 = 0", h1: "상수항 6의 약수를 3의 약수로 나눈 값 중 하나를 대입해 인수정리를 만족하는 해를 찾습니다.", h2: "$x=3$을 대입하면 0이 됩니다. 계수 배열을 3으로 연산하세요.", k: 3, coeffs: [3, -4, -17, 6], mid: ["", 9, 15, -6], res: [3, 5, -2, 0], factor: "(3x^2 + 5x - 2)", factorFinal: "(3x-1)(x+2)", ans: "x = 3, -2, \\frac{1}{3}" },
-        { id: 3, q: "2x^3 + 3x^2 - 11x - 6 = 0", h1: "최고차항 2와 상수항 -6의 약수를 활용하여 $P(x)=0$이 되는 $x$를 도출하세요.", h2: "$x=2$를 기준으로 계수 행렬 조립제법을 수행하여 이차식을 분리하세요.", k: 2, coeffs: [2, 3, -11, -6], mid: ["", 4, 14, 6], res: [2, 7, 3, 0], factor: "(2x^2 + 7x + 3)", factorFinal: "(2x+1)(x+3)", ans: "x = 2, -3, -\\frac{1}{2}" },
-        { id: 4, q: "4x^3 - 12x^2 + 5x + 6 = 0", h1: "인수정리를 적용하기 위해 상수항 6의 약수 중 대입하여 0이 되는 값을 확인합니다.", h2: "$x=2$일 때 식이 성립합니다. 2를 조립제법의 기준값으로 설정하세요.", k: 2, coeffs: [4, -12, 5, 6], mid: ["", 8, -8, -6], res: [4, -4, -3, 0], factor: "(4x^2 - 4x - 3)", factorFinal: "(2x-3)(2x+1)", ans: "x = 2, \\frac{3}{2}, -\\frac{1}{2}" },
-        { id: 5, q: "2x^3 + 5x^2 - 14x - 8 = 0", h1: "최고차항과 상수항의 약수 조합으로 식을 만족하는 $x$를 탐색합니다.", h2: "$x=2$에서 0이 됩니다. 인수 $(x-2)$를 분리하기 위한 조립제법을 시작하세요.", k: 2, coeffs: [2, 5, -14, -8], mid: ["", 4, 18, 8], res: [2, 9, 4, 0], factor: "(2x^2 + 9x + 4)", factorFinal: "(2x+1)(x+4)", ans: "x = 2, -4, -\\frac{1}{2}" },
-        { id: 6, q: "3x^3 + 8x^2 - 15x + 4 = 0", h1: "방정식 계수의 총합을 확인하여 $x=1$이 근이 될 수 있는지 검토하세요.", h2: "계수 합이 0이므로 $x=1$이 근입니다. 1로 조립제법을 실시하여 몫을 찾으세요.", k: 1, coeffs: [3, 8, -15, 4], mid: ["", 3, 11, -4], res: [3, 11, -4, 0], factor: "(3x^2 + 11x - 4)", factorFinal: "(3x-1)(x+4)", ans: "x = 1, -4, \\frac{1}{3}" },
-        { id: 7, q: "5x^3 - 8x^2 - 27x + 18 = 0", h1: "18의 약수 중 대입 시 식의 값을 0으로 만드는 정수해를 찾아보세요.", h2: "$x=3$ 대입 시 성립합니다. 3을 제수로 하여 연산을 전개하세요.", k: 3, coeffs: [5, -8, -27, 18], mid: ["", 15, 21, -18], res: [5, 7, -6, 0], factor: "(5x^2 + 7x - 6)", factorFinal: "(5x-3)(x+2)", ans: "x = 3, -2, \\frac{3}{5}" },
-        { id: 8, q: "2x^3 - 5x^2 - 4x + 12 = 0", h1: "상수항 12의 약수를 최고차항 계수의 약수로 나눈 후보군에서 정답을 찾습니다.", h2: "$x=2$가 방정식의 근입니다. 2로 조립제법을 수행하여 이차방정식 꼴로 만드세요.", k: 2, coeffs: [2, -5, -4, 12], mid: ["", 4, -2, -12], res: [2, -1, -6, 0], factor: "(2x^2 - x - 6)", factorFinal: "(x-2)(2x+3)", ans: "x = 2 (중근), -\\frac{3}{2}" },
-        { id: 9, q: "4x^3 + 4x^2 - 9x - 9 = 0", h1: "홀수차수 항의 합과 짝수차수 항의 합이 같은지 비교하여 $x=-1$을 검토하세요.", h2: "$x=-1$ 대입 시 성립합니다. 기준값을 -1로 설정하여 조립제법을 적용합니다.", k: -1, coeffs: [4, 4, -9, -9], mid: ["", -4, 0, 9], res: [4, 0, -9, 0], factor: "(4x^2 - 9)", factorFinal: "(2x-3)(2x+3)", ans: "x = -1, \\frac{3}{2}, -\\frac{3}{2}" },
-        { id: 10, q: "3x^3 - 10x^2 + 9x - 2 = 0", h1: "계수를 모두 더하여 0이 되는지 확인하고, 이를 인수정리의 근거로 삼으세요.", h2: "계수 합이 0이므로 기준값은 1입니다. 조립제법 후 몫을 분석하세요.", k: 1, coeffs: [3, -10, 9, -2], mid: ["", 3, -7, 2], res: [3, -7, 2, 0], factor: "(3x^2 - 7x + 2)", factorFinal: "(3x-1)(x-2)", ans: "x = 1, 2, \\frac{1}{3}" },
-        { id: 11, q: "2x^3 + 7x^2 + 7x + 2 = 0", h1: "모든 계수가 양수이므로 근은 음수여야 합니다. 음의 정수를 순차적으로 대입하세요.", h2: "$x=-1$일 때 식이 0이 됩니다. 계수를 -1로 조립제법하여 차수를 낮추세요.", k: -1, coeffs: [2, 7, 7, 2], mid: ["", -2, -5, -2], res: [2, 5, 2, 0], factor: "(2x^2 + 5x + 2)", factorFinal: "(2x+1)(x+2)", ans: "x = -1, -2, -\\frac{1}{2}" },
-        { id: 12, q: "6x^3 - x^2 - 12x - 5 = 0", h1: "상수항 -5의 약수를 이용하여 $P(x)=0$인 $x$를 탐색합니다.", h2: "$x=-1$ 대입 시 성립합니다. 조립제법을 실행하여 나머지 인수를 추출하세요.", k: -1, coeffs: [6, -1, -12, -5], mid: ["", -6, 7, 5], res: [6, -7, -5, 0], factor: "(6x^2 - 7x - 5)", factorFinal: "(2x+1)(3x-5)", ans: "x = -1, -\\frac{1}{2}, \\frac{5}{3}" },
-        { id: 13, q: "4x^3 - 8x^2 - x + 2 = 0", h1: "인수정리를 위해 최고차항 4와 상수항 2의 약수를 조합해 대입합니다.", h2: "$x=2$에서 방정식이 참이 됩니다. 2를 제수로 조립제법을 진행하세요.", k: 2, coeffs: [4, -8, -1, 2], mid: ["", 8, 0, -2], res: [4, 0, -1, 0], factor: "(4x^2 - 1)", factorFinal: "(2x-1)(2x+1)", ans: "x = 2, \\frac{1}{2}, -\\frac{1}{2}" },
-        { id: 14, q: "5x^3 + 12x^2 - 11x - 6 = 0", h1: "계수 합을 먼저 확인하여 가장 기초적인 정수해가 존재하는지 점검하세요.", h2: "계수 합이 0이므로 $x=1$이 근입니다. 1로 조립제법을 실시하여 이차식을 도출합니다.", k: 1, coeffs: [5, 12, -11, -6], mid: ["", 5, 17, 6], res: [5, 17, 6, 0], factor: "(5x^2 + 17x + 6)", factorFinal: "(5x+2)(x+3)", ans: "x = 1, -3, -\\frac{2}{5}" },
-        { id: 15, q: "2x^3 - 11x^2 + 17x - 6 = 0", h1: "상수항 -6의 약수를 순서대로 대입하며 식이 0이 되는 값을 찾습니다.", h2: "$x=2$ 대입 시 성립하므로, 기준값 2로 계수 배열에 대한 연산을 수행합니다.", k: 2, coeffs: [2, -11, 17, -6], mid: ["", 4, -14, 6], res: [2, -7, 3, 0], factor: "(2x^2 - 7x + 3)", factorFinal: "(2x-1)(x-3)", ans: "x = 2, 3, \\frac{1}{2}" },
-        { id: 16, q: "3x^3 + x^2 - 12x - 4 = 0", h1: "상수항 -4의 약수 중에서 대입 시 식을 만족하는 $x$를 탐색하세요.", h2: "$x=2$가 방정식의 근입니다. 인수 $(x-2)$를 분리하기 위한 조립제법을 시작하세요.", k: 2, coeffs: [3, 1, -12, -4], mid: ["", 6, 14, 4], res: [3, 7, 2, 0], factor: "(3x^2 + 7x + 2)", factorFinal: "(3x+1)(x+2)", ans: "x = 2, -2, -\\frac{1}{3}" },
-        { id: 17, q: "2x^3 - 9x^2 + 7x + 6 = 0", h1: "유리수 근 정리에 따라 상수항 6의 약수를 대입해 근을 도출합니다.", h2: "$x=2$일 때 값이 0이 됩니다. 조립제법의 제수를 2로 설정하고 연산하세요.", k: 2, coeffs: [2, -9, 7, 6], mid: ["", 4, -10, -6], res: [2, -5, -3, 0], factor: "(2x^2 - 5x - 3)", factorFinal: "(2x+1)(x-3)", ans: "x = 2, 3, -\\frac{1}{2}" },
-        { id: 18, q: "4x^3 + 12x^2 + 11x + 3 = 0", h1: "모든 계수가 양수이므로 $x$가 음수일 때 식이 성립할 수 있습니다.", h2: "$x=-1$에서 식의 값이 0이 됩니다. -1로 조립제법을 전개하세요.", k: -1, coeffs: [4, 12, 11, 3], mid: ["", -4, -8, -3], res: [4, 8, 3, 0], factor: "(4x^2 + 8x + 3)", factorFinal: "(2x+1)(2x+3)", ans: "x = -1, -\\frac{1}{2}, -\\frac{3}{2}" },
-        { id: 19, q: "3x^3 - 14x^2 + 13x + 6 = 0", h1: "최고차항 계수 3과 상수항 6의 약수 비를 대입하여 $0$이 되는 $x$를 찾습니다.", h2: "$x=3$ 대입 시 성립합니다. 계수 배열 $[3, -14, 13, 6]$을 3으로 연산합니다.", k: 3, coeffs: [3, -14, 13, 6], mid: ["", 9, -15, -6], res: [3, -5, -2, 0], factor: "(3x^2 - 5x - 2)", factorFinal: "(3x+1)(x-2)", ans: "x = 3, 2, -\\frac{1}{3}" },
-        { id: 20, q: "2x^3 + 9x^2 + 3x - 4 = 0", h1: "홀수 차수 항과 짝수 차수 항의 합을 비교하여 $x=-1$을 대입해 검증합니다.", h2: "$x=-1$일 때 식이 만족됩니다. 기준값을 -1로 두고 조립제법을 수행하세요.", k: -1, coeffs: [2, 9, 3, -4], mid: ["", -2, -7, 4], res: [2, 7, -4, 0], factor: "(2x^2 + 7x - 4)", factorFinal: "(2x-1)(x+4)", ans: "x = -1, -4, \\frac{1}{2}" },
-        { id: 21, q: "5x^3 - 24x^2 + 15x + 4 = 0", h1: "상수항 4의 약수를 이용해 방정식이 참이 되는 $x$를 추출하세요.", h2: "$x=4$에서 0이 도출됩니다. 4로 조립제법을 실행하여 나머지 인수를 찾으세요.", k: 4, coeffs: [5, -24, 15, 4], mid: ["", 20, -16, -4], res: [5, -4, -1, 0], factor: "(5x^2 - 4x - 1)", factorFinal: "(5x+1)(x-1)", ans: "x = 4, 1, -\\frac{1}{5}" },
-        { id: 22, q: "3x^3 + 4x^2 - 13x + 6 = 0", h1: "각 항의 계수 합을 산출하여 $x=1$ 대입 시의 결과를 점검하세요.", h2: "계수 합이 0이므로 기준값은 1입니다. 1을 제수로 연산을 마무리하세요.", k: 1, coeffs: [3, 4, -13, 6], mid: ["", 3, 7, -6], res: [3, 7, -6, 0], factor: "(3x^2 + 7x - 6)", factorFinal: "(3x-2)(x+3)", ans: "x = 1, -3, \\frac{2}{3}" },
-        { id: 23, q: "4x^3 - 3x + 1 = 0", h1: "이차항이 생략된 식입니다. 홀수차, 짝수차 계수 합을 통해 $x=-1$을 확인하세요.", h2: "$x=-1$에서 성립하므로, 계수 $[4, 0, -3, 1]$을 -1로 조립제법 합니다.", k: -1, coeffs: [4, 0, -3, 1], mid: ["", -4, 4, -1], res: [4, -4, 1, 0], factor: "(4x^2 - 4x + 1)", factorFinal: "(2x-1)^2", ans: "x = -1, \\frac{1}{2} (중근)" },
-        { id: 24, q: "2x^3 - 3x^2 - 11x + 6 = 0", h1: "상수항 6의 약수 중 대입 시 식을 0으로 만드는 정수를 찾습니다.", h2: "$x=3$일 때 만족합니다. 3을 기준으로 조립제법을 진행하여 이차방정식을 만듭니다.", k: 3, coeffs: [2, -3, -11, 6], mid: ["", 6, 9, -6], res: [2, 3, -2, 0], factor: "(2x^2 + 3x - 2)", factorFinal: "(2x-1)(x+2)", ans: "x = 3, -2, \\frac{1}{2}" },
-        { id: 25, q: "3x^3 - x^2 - 12x + 4 = 0", h1: "유리수 근 정리를 적용하여 방정식이 0이 되는 값을 확인합니다.", h2: "$x=2$ 대입 시 성립합니다. 조립제법의 제수를 2로 두고 연산을 적용하세요.", k: 2, coeffs: [3, -1, -12, 4], mid: ["", 6, 10, -4], res: [3, 5, -2, 0], factor: "(3x^2 + 5x - 2)", factorFinal: "(3x-1)(x+2)", ans: "x = 2, -2, \\frac{1}{3}" }
-    ];
-
-    let problemHistory = new Set();
-    let activeProblem = null;
-    let activePreviousProblem = null;
-    let timerInstance = null;
-    let timeRemaining = 300;
 
     function renderMath() {
         renderMathInElement(document.body, {
@@ -393,10 +351,8 @@
         const displayArea = document.getElementById('math-display');
         const loaderArea = document.getElementById('prob-loading');
         loaderArea.style.display = 'flex'; displayArea.style.display = 'none';
-        
         setTimeout(() => {
             let availableData = problemDatabase.filter(p => !problemHistory.has(p.id));
-            
             if (availableData.length === 0) {
                 activeProblem = activePreviousProblem ? activePreviousProblem : problemDatabase[problemDatabase.length - 1];
             } else {
@@ -404,13 +360,11 @@
                 problemHistory.add(activeProblem.id);
                 activePreviousProblem = activeProblem;
             }
-
             loaderArea.style.display = 'none'; displayArea.style.display = 'flex';
             displayArea.className = "math-main";
             displayArea.innerText = "$$" + activeProblem.q + "$$";
             document.getElementById('h1-text').innerText = activeProblem.h1;
             document.getElementById('h2-text').innerText = activeProblem.h2;
-            
             document.getElementById('h1-btn').disabled = false;
             document.getElementById('h2-btn').disabled = false;
             document.getElementById('solve-btn').disabled = false;
@@ -419,40 +373,44 @@
     }
 
     function toggleTimer() {
+        const btn = document.getElementById('timer-btn');
         if (timerInstance) {
-            clearInterval(timerInstance); timerInstance = null;
-            document.getElementById('timer-btn').innerText = "⏳ 재개";
+            clearInterval(timerInstance);
+            timerInstance = null;
+            btn.innerText = "⏳ 재개";
         } else {
-            document.getElementById('timer-btn').innerText = "⏹️ 중지";
+            btn.innerText = "⏹️ 중지";
             timerInstance = setInterval(() => {
-                timeRemaining--; updateTimerUI();
-                if (timeRemaining <= 0) clearInterval(timerInstance);
+                if (timeRemaining > 0) {
+                    timeRemaining--;
+                    updateTimerUI();
+                } else {
+                    clearInterval(timerInstance);
+                    timerInstance = null;
+                    btn.innerText = "⏳ 타이머";
+                }
             }, 1000);
         }
     }
 
     function updateTimerUI() {
         const min = Math.floor(timeRemaining / 60); const sec = timeRemaining % 60;
-        const el = document.getElementById('timer');
-        el.innerText = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
-        if (timeRemaining < 60) el.style.color = "#D93025";
+        document.getElementById('timer').innerText = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
     }
 
     function revealScaffolding(n) { document.getElementById(`hint-${n}`).style.display = 'block'; }
 
     function processAIAnalysis() {
-        clearInterval(timerInstance);
+        if(timerInstance) { clearInterval(timerInstance); timerInstance = null; document.getElementById('timer-btn').innerText = "⏳ 타이머"; }
         document.getElementById('sol-view').style.display = 'none';
         document.getElementById('ai-sol-label').style.display = 'none';
         document.getElementById('ai-loading').style.display = 'flex';
-        
         const processSteps = ["방정식 차수 분석 중...", "계수 추출 및 행렬 구성 중...", "조립제법 알고리즘 연산 중..."];
         let stepIdx = 0;
         const processTimer = setInterval(() => {
             document.getElementById('ai-ment').innerText = processSteps[stepIdx % 3];
             stepIdx++;
         }, 2000);
-
         setTimeout(() => {
             clearInterval(processTimer);
             document.getElementById('ai-loading').style.display = 'none';
@@ -489,12 +447,12 @@
         const factorStr = `(x ${signK} ${absK})`;
 
         const analysisData = [
-            `<b>1. 인수정리:</b> $P(${activeProblem.k}) = 0$이므로 $${factorStr}$를 인수로 추출합니다.`,
-            `<b>2. 조립제법 실행:</b> 계수 배열 $[${activeProblem.coeffs.join(', ')}]$을 사용하여 연산합니다.`,
+            `<b>1. 인수정리:</b> $P(${activeProblem.k}) = 0$임을 확인하여 일차인수 $${factorStr}$를 추출합니다.`,
+            `<b>2. 조립제법 실행:</b> 식의 계수 $[${activeProblem.coeffs.join(', ')}]$을 사용하여 나눗셈을 수행합니다.`,
             tableHTML,
-            `<b>3. 1차 분해 결과:</b> 조립제법을 통해 다항식을 다음과 같이 분해합니다. <br> &nbsp;&nbsp; $\\Rightarrow ${factorStr}$$${activeProblem.factor} = 0$`,
-            `<b>4. 2차 분해 결과:</b> 몫으로 도출된 이차식을 추가로 인수분해합니다. <br> &nbsp;&nbsp; $\\Rightarrow ${factorStr}$$${activeProblem.factorFinal} = 0$`,
-            `<b>5. 근의 도출:</b> 방정식의 모든 실근 및 중근을 산출합니다.`
+            `<b>3. 1차 인수분해 결과:</b> 조립제법을 통해 다항식을 다음과 같이 1차 분해합니다. <br> &nbsp;&nbsp; $\\Rightarrow ${factorStr}${activeProblem.factor} = 0$`,
+            `<b>4. 2차 인수분해 결과:</b> 몫으로 남은 이차식을 한 번 더 인수분해합니다. <br> &nbsp;&nbsp; $\\Rightarrow ${factorStr}${activeProblem.factorFinal} = 0$`,
+            `<b>5. 근의 도출:</b> 각 인수가 0이 되게 하는 모든 실근을 산출합니다.`
         ];
 
         let index = 0;
@@ -529,8 +487,6 @@
         document.getElementById('h2-btn').disabled = true;
         document.getElementById('solve-btn').disabled = true;
         timeRemaining = 300; updateTimerUI();
-        if(timerInstance) { clearInterval(timerInstance); timerInstance = null; }
-        document.getElementById('timer-btn').innerText = "⏳ 타이머";
     }
 
     window.onload = renderMath;
