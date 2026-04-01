@@ -82,7 +82,6 @@
 
         .math-container { flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         
-        /* [수정] 수식이 길어질 때 잘리는 현상을 방지하기 위해 폰트 크기 조정 */
         .math-main { font-size: clamp(1.4rem, 2.8vw, 2.6rem) !important; font-weight: 900; color: #000000 !important; margin: 0; text-align: center; }
         
         .placeholder-text { font-size: 1.3rem; color: #9AA0A6; font-weight: 600; display: flex; align-items: center; gap: 10px; }
@@ -94,11 +93,10 @@
         .ai-area { border: 2px solid #D2E3FC; }
         .ai-loading-container { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 20px; }
         .loader-wrapper { position: relative; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; }
+        
         .c-ring { 
-            position: absolute; width: 100%; height: 100%; border-radius: 50%;
-            border: 8px solid rgba(66, 133, 244, 0.1); border-top: 8px solid #4285F4;
-            border-right: 8px solid #9B72CB; border-bottom: 8px solid #D96570;
-            border-left: 8px solid transparent; animation: spin 1s linear infinite;
+            position: absolute; width: 100%; height: 100%; 
+            animation: spin 1s linear infinite;
         }
         .diamond-img { width: 70px; height: 70px; z-index: 2; animation: pulse 2s infinite ease-in-out; }
 
@@ -183,7 +181,18 @@
             <div class="section-card prob-area">
                 <div class="label-box">탐구 과제 : 조립제법을 이용한 고차방정식의 해 구하기</div>
                 <div id="prob-loading" style="display:none; flex:1; align-items:center; justify-content:center; flex-direction:column;">
-                    <div class="loader-wrapper" style="width:45px; height:45px;"><div class="c-ring" style="border-width:5px;"></div></div>
+                    <div class="loader-wrapper" style="width:45px; height:45px;">
+                        <svg class="c-ring" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="origGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#4285F4;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#9B72CB;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#D96570;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M 78.28 78.28 A 40 40 0 1 1 78.28 21.72" fill="none" stroke="url(#origGrad1)" stroke-width="8" stroke-linecap="round"/>
+                        </svg>
+                    </div>
                 </div>
                 <div class="math-container">
                     <div id="math-display" class="placeholder-text">하단의 <span class="trigger-btn">🎲 문제 생성</span> 버튼을 클릭하세요.</div>
@@ -216,7 +225,19 @@
                     <span id="ai-sol-label" style="position: absolute; left: 0; color:var(--gemini-blue); font-weight:800; font-size:1.1rem; display:none;">상세 사고 과정 분석</span>
                 </div>
                 <div id="ai-loading" class="ai-loading-container">
-                    <div class="loader-wrapper"><div class="c-ring"></div><img src="gemini-color.png" class="diamond-img" alt="gemini"></div>
+                    <div class="loader-wrapper">
+                        <svg class="c-ring" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="origGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#4285F4;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#9B72CB;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#D96570;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M 78.28 78.28 A 40 40 0 1 1 78.28 21.72" fill="none" stroke="url(#origGrad2)" stroke-width="6" stroke-linecap="round"/>
+                        </svg>
+                        <img src="gemini-color.png" class="diamond-img" alt="gemini">
+                    </div>
                     <div id="ai-ment" class="loading-ment">수학적 구조 분석 중...</div>
                 </div>
                 <div id="sol-view" class="sol-content">
