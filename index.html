@@ -1,536 +1,187 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Gemini 협업 수학 시뮬레이터</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <title>고등학교 수학 문제 생성기</title>
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
-
-    <style>
-        * { box-sizing: border-box; }
-
-        :root { 
-            --gemini-blue: #1A73E8; 
-            --gemini-purple: #8E75FF; 
-            --bg: #F8FAFD; 
-            --card: #FFFFFF;
-            --gradient: linear-gradient(45deg, #4285F4, #9B72CB, #D96570);
-        }
-        
-        body { font-family: 'Pretendard', sans-serif; background: var(--bg); margin: 0; padding: 20px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-
-        .view-section { display: none; flex-direction: column; height: 100%; width: 100%; position: relative; }
-        .view-active { display: flex; }
-
-        /* --- 시작 화면 (Intro View) --- */
-        .intro-container { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 8vh; position: relative; }
-        
-        .title-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; margin-bottom: 30px; }
-        .brand-line { display: flex; align-items: center; gap: 15px; }
-        .intro-logo { width: 75px; height: 75px; animation: pulse 3s infinite ease-in-out; }
-        .intro-title-brand { font-size: 3.6rem; font-weight: 900; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; margin: 0; letter-spacing: -1.5px; }
-        .intro-title-main { font-size: 3.2rem; font-weight: 900; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; margin: 0; letter-spacing: -1px; }
-        
-        .intro-subtitle { font-size: 1.3rem; color: #5F6368; font-weight: 700; background: #EEF3FF; padding: 10px 25px; border-radius: 20px; border: 1px solid #D2E3FC; margin-top: 20px; margin-bottom: 40px; }
-
-        .grade-group { display: flex; gap: 15px; width: 100%; max-width: 800px; justify-content: center; }
-        .grade-btn { flex: 1; height: 65px; background: #FFFFFF; border: 2px solid #E3E8EF; color: #5F6368; border-radius: 14px; font-size: 1.2rem; font-weight: 800; cursor: pointer; transition: all 0.2s; }
-        .grade-btn:hover { border-color: var(--gemini-blue); color: var(--gemini-blue); background: #F8FAFD; }
-        .grade-btn.active { background: var(--gemini-blue); border-color: var(--gemini-blue); color: white; box-shadow: 0 4px 15px rgba(26, 115, 232, 0.3); }
-
-        .chapter-group-wrapper { position: relative; min-height: 120px; width: 100%; max-width: 1200px; display: flex; flex-direction: column; align-items: center; margin-top: 40px; margin-bottom: 20px; }
-        #tree-svg { position: absolute; top: -35px; left: 0; width: 100%; height: 35px; pointer-events: none; overflow: visible; }
-        
-        .chapter-group { display: flex; gap: 10px; flex-wrap: nowrap; justify-content: center; width: auto; position: relative; z-index: 2; }
-        .chapter-btn { background: #FFFFFF; border: 2px solid #E3E8EF; color: #5F6368; padding: 12px 18px; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
-        .chapter-btn:hover { border-color: var(--gemini-blue); color: var(--gemini-blue); }
-        .chapter-btn.active { background: #EEF3FF; border-color: var(--gemini-blue); color: var(--gemini-blue); font-weight: 800; }
-
-        .start-btn { background: var(--gemini-blue); color: white; padding: 18px 65px; border-radius: 18px; font-size: 1.5rem; font-weight: 800; border: none; cursor: pointer; transition: all 0.3s; margin-top: 10px; }
-        .start-btn:disabled { background: #DADCE0; color: #9AA0A6; cursor: not-allowed; opacity: 0.7; }
-
-        .author-footer { position: absolute; bottom: 30px; right: 40px; text-align: right; font-size: 1.15rem; color: #5F6368; font-weight: 600; line-height: 1.5; }
-
-        /* --- 메인 시뮬레이터 (Main View) --- */
-        #hidden-reset { position: absolute; top: 0; right: 0; width: 50px; height: 50px; background: transparent; border: 1px solid transparent; cursor: pointer; z-index: 100; transition: border 0.2s; }
-        #hidden-reset:hover { border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 8px; }
-
-        .header { display: flex; width: 100%; height: 60px; margin-bottom: 15px; flex-shrink: 0; align-items: center; }
-        .header-left { flex: 1; display: flex; align-items: center; gap: 12px; }
-        .header-right { flex: 1; display: flex; justify-content: center; align-items: center; }
-
-        .gemini-text-main { font-size: 2.2rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; color: transparent; letter-spacing: -1px; }
-        .separator { font-size: 1.8rem; color: #DADCE0; margin: 0 10px; }
-        .sub-text-header { font-size: 1.5rem; color: #5F6368; font-weight: 500; }
-
-        .timer-container { background: #E8F0FE; padding: 6px 25px; border-radius: 12px; border: 2px solid var(--gemini-blue); min-width: 120px; text-align: center; }
-        #timer { font-size: 1.6rem; font-weight: 800; color: var(--gemini-blue); }
-
-        .container { display: flex; flex: 1; gap: 20px; min-height: 0; overflow: hidden; }
-        .left-col, .right-col { flex: 1; display: flex; flex-direction: column; gap: 15px; min-height: 0; min-width: 0; }
-
-        .section-card { background: var(--card); border-radius: 24px; padding: 25px; box-shadow: 0 8px 30px rgba(0,0,0,0.03); border: 1px solid #E3E8EF; display: flex; flex-direction: column; position: relative; overflow: hidden; height: 100%; }
-        
-        .prob-area { flex: 0 0 28%; justify-content: flex-start; }
-
-        /* 힌트 영역 수정: 위아래 패딩 확장 */
-        .hint-area { flex: 1; min-height: 0; }
-        .hint-item { padding: 22px 15px; border-radius: 12px; background: #F8F9FA; border: 1px solid #E9ECEF; display: none; animation: fadeIn 0.4s ease; margin-bottom: 10px; }
-        .hint-text { font-size: 1.2rem; color: #3C4043; line-height: 1.8; font-weight: 500; word-break: keep-all; overflow-wrap: break-word; }
-
-        .label-box { display: inline-block; background: #EEF3FF; color: var(--gemini-blue); padding: 6px 15px; border-radius: 8px; font-weight: 800; font-size: 1.1rem; margin-bottom: 10px; border: 1px solid #D2E3FC; width: fit-content; flex-shrink: 0; }
-        .hint-label { display: inline-block; padding: 4px 12px; border-radius: 6px; background: var(--gradient); color: white; font-weight: 700; font-size: 0.9rem; margin-bottom: 8px; }
-
-        .math-container { flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        
-        .math-main { font-size: clamp(1.4rem, 2.8vw, 2.6rem) !important; font-weight: 900; color: #000000 !important; margin: 0; text-align: center; }
-        
-        .placeholder-text { font-size: 1.3rem; color: #9AA0A6; font-weight: 600; display: flex; align-items: center; gap: 10px; }
-        .trigger-btn { background: var(--gemini-blue); color: white; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 1.1rem; }
-
-        .ai-area { border: 2px solid #D2E3FC; }
-        .ai-loading-container { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 20px; }
-        .loader-wrapper { position: relative; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; }
-        
-        .c-ring { 
-            position: absolute; width: 100%; height: 100%; 
-            animation: spin 1s linear infinite;
-        }
-        .diamond-img { width: 70px; height: 70px; z-index: 2; animation: pulse 2s infinite ease-in-out; }
-
-        .loading-ment { font-size: 2rem; font-weight: 800; color: var(--gemini-blue); text-align: center; }
-
-        .sol-content { display: none; flex-direction: column; height: 100%; overflow: hidden; padding-top: 10px; }
-        
-        .synth-table { margin: 8px auto; border-collapse: collapse; font-size: 1.5rem; }
-        .synth-table td { padding: 4px 16px; text-align: center; }
-        .synth-border-left { border-left: 3px solid #5F6368; }
-        .synth-border-bottom { border-bottom: 3px solid #5F6368; }
-        .remainder { color: #D93025; font-weight: bold; border: 2px solid #FAD2CF; border-radius: 8px; }
-
-        /* 정답 박스 스타일 유지 */
-        .final-ans { 
-            background: #E8F0FE; 
-            padding: 15px 30px; 
-            border-radius: 12px; 
-            font-size: 1.7rem; 
-            font-weight: 900; 
-            color: #1967D2; 
-            display: flex; 
-            align-items: center; 
-            justify-content: flex-start;
-            margin-top: auto; 
-            margin-bottom: 5px; 
-            border: 1px solid #D2E3FC; 
-            flex-shrink: 0;
-            min-height: 90px;
-        }
-
-        .controls { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; background: #202124; padding: 10px; border-radius: 15px; flex-shrink: 0; }
-        .ctrl-btn { padding: 10px 5px; font-size: 0.9rem; font-weight: 700; border-radius: 8px; border: none; cursor: pointer; transition: 0.2s; white-space: nowrap; }
-        .btn-blue { background: var(--gemini-blue); color: white; }
-        .btn-gray { background: #5F6368; color: white; }
-        .btn-green { background: #34A853; color: white; }
-
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+    <!-- 1. 외부 라이브러리 (수식 렌더링 및 폰트) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Noto+Serif+KR:wght@400;600&family=Caveat:wght@700&display=swap" rel="stylesheet"/>
+    
+    <!-- 2. 외부 CSS 파일 연결 (42.html과 동일한 디자인) -->
+    <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
 
-<svg style="display:none;">
-    <symbol id="gemini-diamond" viewBox="0 0 24 24">
-        <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="url(#grad1)"/>
-        <defs>
-            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#4285F4;stop-opacity:1" />
-                <stop offset="50%" style="stop-color:#9B72CB;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#D96570;stop-opacity:1" />
-            </linearGradient>
-        </defs>
-    </symbol>
-</svg>
-
-<div id="intro-view" class="view-section view-active">
-    <div class="intro-container">
-        <div class="title-wrapper">
-            <div class="brand-line">
-                <img src="gemini-color.png" class="intro-logo" alt="Gemini Logo">
-                <span class="intro-title-brand">Gemini</span>
-            </div>
-            <h1 class="intro-title-main">AI 협업 수학 시뮬레이터</h1>
-        </div>
-        <div class="intro-subtitle">2022 개정 수학과 교육과정</div>
-        <div class="grade-group">
-            <button class="grade-btn" onclick="selectGrade('g1', this)">고1 공통수학</button>
-            <button class="grade-btn" onclick="selectGrade('g2', this)">고2 대수/미적분I</button>
-            <button class="grade-btn" onclick="selectGrade('g3', this)">고3 미적분II/확통/기하</button>
-        </div>
-        <div class="chapter-group-wrapper" id="chapter-wrapper">
-            <svg id="tree-svg"></svg>
-            <div id="chapter-container" class="chapter-group"></div>
-        </div>
-        <button id="start-app-btn" class="start-btn" disabled onclick="initSimulator()">시뮬레이터 시작하기</button>
-        <div class="author-footer">수학교교육과 20200522<br>이상진</div>
+<div id="splash">
+  <div class="sp-card">
+    <div class="sp-icon">∑</div>
+    <div class="sp-title">고등학교 수학 문제 생성기</div>
+    <div class="sp-sub">2022 개정 교육과정</div>
+    <div class="sp-grade-row"><span class="sp-badge-lg">📐 고1 공통수학</span></div>
+    <div class="sp-grade-row"><span class="sp-badge-lg">📊 고2 수학Ⅰ·Ⅱ</span></div>
+    <div class="sp-grade-row" style="margin-bottom:18px"><span class="sp-badge-lg">∫ 고3 미적분·확통</span></div>
+    <div class="sp-badges">
+      <span class="sp-badge">🤖 AI 서술형 채점</span>
+      <span class="sp-badge">💡 힌트·풀이 제공</span>
+      <span class="sp-badge">✏️ 수식 입력기</span>
     </div>
+    <div class="sp-badges" style="margin-top:6px">
+      <span class="sp-badge">📝 시험 모드</span>
+      <span class="sp-badge">📕 오답노트</span>
+    </div>
+    <button class="sp-start" onclick="document.getElementById('splash').classList.add('hidden')">시작하기</button>
+    <div class="sp-desc">객관식 · 단답형 · 서술형 · 난이도 5단계</div>
+    
+    <!-- 제작자 및 AI 로고 섹션 (img 폴더 연결) -->
+    <div style="margin-top:28px;width:100%;border-top:1px solid rgba(255,255,255,.12);padding-top:14px;display:flex;align-items:center;justify-content:space-between;position:relative">
+      <div style="display:flex;align-items:center;gap:12px;flex:1;justify-content:flex-start;padding-right:16px">
+        <!-- 제미나이 (Gemini) -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+          <img src="img/gemini.png" width="28" height="28" style="border-radius:6px;object-fit:cover" alt="Gemini"/>
+          <div style="font-size:9px;color:rgba(150,200,255,.75);font-weight:600">Gemini</div>
+        </div>
+        <!-- 클로드 (Claude) -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+          <img src="img/claude.png" width="28" height="28" style="border-radius:6px;object-fit:cover" alt="Claude"/>
+          <div style="font-size:9px;color:rgba(255,200,100,.75);font-weight:600">Claude</div>
+        </div>
+        <!-- 그록 (Groq) -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+          <img src="img/groq.png" width="28" height="28" style="border-radius:6px;object-fit:cover" alt="Groq"/>
+          <div style="font-size:9px;color:rgba(150,200,255,.75);font-weight:600">Groq</div>
+        </div>
+        <!-- 커서 (Cursor) -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:3px">
+          <img src="img/cursor.png" width="28" height="28" style="border-radius:6px;object-fit:cover" alt="Cursor"/>
+          <div style="font-size:9px;color:rgba(200,200,255,.75);font-weight:600">Cursor</div>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:1.5px;margin-bottom:3px">MAKER</div>
+        <div style="font-size:13.5px;font-weight:700;color:rgba(255,255,255,.85)">이상진</div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div id="main-view" class="view-section">
-    <button id="hidden-reset" onclick="resetDatabase()" title="초기화"></button>
-    <div class="header">
-        <div class="header-left">
-            <img src="gemini-color.png" width="40" height="40" alt="logo">
-            <span class="gemini-text-main">Gemini</span>
-            <span class="separator">|</span>
-            <span class="sub-text-header">AI 협업 수학 시뮬레이터 : 조립제법</span>
-        </div>
-        <div class="header-right">
-            <div class="timer-container"><div id="timer">05:00</div></div>
-        </div>
-    </div>
+<header>
+  <div class="logo">
+    <div class="logo-ico">∑</div>
+    <div><div class="logo-tx">고등학교 수학 문제 생성기</div><div class="logo-sb">2022 개정 교육과정 · 고1 · 고2 · 고3</div></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px">
+    <button id="kbToggle" class="theme-btn" title="수식 키보드" style="font-size:14px">⌨️</button>
+    <button class="wn-hbtn" onclick="wnOpen()">📕 오답 노트 <span class="wn-cnt" id="wnCount">0</span></button>
+    <div class="hbadge">수학교육과 캡스톤디자인I</div>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="다크/라이트 모드">🌙</button>
+  </div>
+</header>
 
-    <div class="container">
-        <div class="left-col">
-            <div class="section-card prob-area">
-                <div class="label-box">탐구 과제 : 조립제법을 이용한 고차방정식의 해 구하기</div>
-                <div id="prob-loading" style="display:none; flex:1; align-items:center; justify-content:center; flex-direction:column;">
-                    <div class="loader-wrapper" style="width:45px; height:45px;">
-                        <svg class="c-ring" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="origGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#4285F4;stop-opacity:1" />
-                                    <stop offset="50%" style="stop-color:#9B72CB;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#D96570;stop-opacity:1" />
-                                </linearGradient>
-                            </defs>
-                            <path d="M 78.28 78.28 A 40 40 0 1 1 78.28 21.72" fill="none" stroke="url(#origGrad1)" stroke-width="8" stroke-linecap="round"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="math-container">
-                    <div id="math-display" class="placeholder-text">하단의 <span class="trigger-btn">🎲 문제 생성</span> 버튼을 클릭하세요.</div>
-                </div>
-            </div>
-            <div class="section-card hint-area">
-                <div class="label-box">AI Scaffolding</div>
-                <div id="hint-1" class="hint-item">
-                    <div class="hint-label">Step 1: 탐색 전략</div>
-                    <div class="hint-text" id="h1-text"></div>
-                </div>
-                <div id="hint-2" class="hint-item">
-                    <div class="hint-label">Step 2: 실행 가이드</div>
-                    <div class="hint-text" id="h2-text"></div>
-                </div>
-            </div>
-            <div class="controls">
-                <button class="ctrl-btn btn-blue" id="gen-btn" onclick="fetchProblemData()">🎲 문제 생성</button>
-                <button class="ctrl-btn btn-gray" id="timer-btn" onclick="toggleTimer()">⏳ 타이머</button>
-                <button class="ctrl-btn btn-gray" id="h1-btn" onclick="revealScaffolding(1)" disabled>💡 힌트 1</button>
-                <button class="ctrl-btn btn-gray" id="h2-btn" onclick="revealScaffolding(2)" disabled>💡 힌트 2</button>
-                <button class="ctrl-btn btn-blue" id="solve-btn" onclick="processAIAnalysis()" disabled>✨ AI 풀이</button>
-                <button class="ctrl-btn btn-green" id="next-btn" onclick="resetWorkspace()">⮕ 다음문제</button>
-            </div>
-        </div>
-        <div class="right-col">
-            <div class="section-card ai-area">
-                <div style="display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 10px;">
-                    <div class="label-box" style="margin: 0;">AI 풀이 결과</div>
-                    <span id="ai-sol-label" style="position: absolute; left: 0; color:var(--gemini-blue); font-weight:800; font-size:1.1rem; display:none;">상세 사고 과정 분석</span>
-                </div>
-                <div id="ai-loading" class="ai-loading-container">
-                    <div class="loader-wrapper">
-                        <svg class="c-ring" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="origGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#4285F4;stop-opacity:1" />
-                                    <stop offset="50%" style="stop-color:#9B72CB;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#D96570;stop-opacity:1" />
-                                </linearGradient>
-                            </defs>
-                            <path d="M 78.28 78.28 A 40 40 0 1 1 78.28 21.72" fill="none" stroke="url(#origGrad2)" stroke-width="6" stroke-linecap="round"/>
-                        </svg>
-                        <img src="gemini-color.png" class="diamond-img" alt="gemini">
-                    </div>
-                    <div id="ai-ment" class="loading-ment">수학적 구조 분석 중...</div>
-                </div>
-                <div id="sol-view" class="sol-content">
-                    <div id="sol-stream" style="font-size:1.1rem; line-height:1.6; padding: 0 5px;"></div>
-                    <div id="sol-footer" class="final-ans" style="display:none;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div id="kbArea" class="kb-area">
+  <div class="kb-inner">
+    <div id="mkGrid" class="mk-grid"></div>
+  </div>
 </div>
 
+<div class="ws">
+  <aside>
+    <div class="sbl">⚙ 문제 설정</div>
+    <div>
+      <div class="fl">학년</div>
+      <div class="grade-tabs" id="gradeG">
+        <button class="grade-tab on" data-g="고1">고1</button>
+        <button class="grade-tab" data-g="고2">고2</button>
+        <button class="grade-tab" data-g="고3">고3</button>
+      </div>
+    </div>
+    <div>
+      <div class="fl">단원</div>
+      <div id="subjG" style="display:flex;gap:4px;margin-bottom:6px;flex-wrap:wrap"></div>
+    <div class="sub-list" id="subG"></div>
+      <div class="mode-btns">
+        <button class="mix-btn" id="mixBtn">단원 혼합 출제</button>
+        <button class="exam-btn" id="examBtn"><span class="exam-dot" id="examDot"></span><span id="examBtnTxt">시험 모드</span></button>
+      </div>
+    </div>
+    <div>
+      <div class="fl">난이도</div>
+      <div class="lv-row" id="lvG">
+        <button class="lv-btn" data-lv="1" data-c="#16a34a" data-d="공식 직접 대입" data-l="기초">기초</button>
+        <button class="lv-btn on" data-lv="2" data-c="#2563eb" data-d="공식 단순 적용" data-l="기본">기본</button>
+        <button class="lv-btn" data-lv="3" data-c="#d97706" data-d="개념 응용" data-l="표준">표준</button>
+        <button class="lv-btn" data-lv="4" data-c="#ea580c" data-d="복합 조건" data-l="심화">심화</button>
+        <button class="lv-btn" data-lv="5" data-c="#dc2626" data-d="역발상·다단계" data-l="최고">최고</button>
+      </div>
+      <div class="lv-hint" id="lvHint">공식 단순 적용</div>
+    </div>
+    <div>
+      <div class="fl">문제 유형</div>
+      <div class="ty-row" id="tyG">
+        <button class="ty-btn on" data-v="OX형">OX형</button>
+        <button class="ty-btn" data-v="객관식">객관식</button>
+        <button class="ty-btn" data-v="단답형">단답형</button>
+        <button class="ty-btn" data-v="서술형">서술형</button>
+      </div>
+    </div>
+    <div>
+      <div class="fl">문항 수</div>
+      <div class="cnt-ctrl">
+        <button class="cnt-btn" id="cDn">−</button>
+        <div class="cnt-n" id="cDsp">3</div>
+        <button class="cnt-btn" id="cUp">+</button>
+      </div>
+    </div>
+    <button id="genBtn">✦ 문제 생성하기</button>
+  </aside>
+
+  <div class="cp" id="cp">
+    <div class="empty-st"><div class="empty-ico">📝</div><div class="empty-tx">왼쪽에서 설정을 선택하고<br>문제 생성하기를 누르세요</div></div>
+  </div>
+
+  <div class="rp" id="rp">
+    <div class="rp-empty"><div class="rp-empty-ico">👆</div><div class="rp-empty-tx">문제를 클릭하면<br>힌트·정답·풀이가<br>여기에 나옵니다</div></div>
+  </div>
+
+  <div class="kp">
+    <div class="kp-scroll">
+      <div class="kp-lbl">📐 수식 입력기</div>
+      <textarea id="mkInput" class="mk-input" placeholder="여기에 직접 입력&#10;한글·수식·LaTeX 가능&#10;예) 3x^2+2x-1"></textarea>
+      <div id="mkRendered" class="mk-rendered"><span class="mk-ph">수식 미리보기</span></div>
+      <button class="mk-apply-btn" id="mkApplyBtn">↩ 답안에 입력하기</button>
+      <div class="mk-sidebar-info" style="font-size:10px;color:var(--dim);margin-top:10px">상단 ⌨️ 버튼을 눌러 확장 키보드를 사용하세요.</div>
+      <button class="latex-copy-btn" id="latexCopyBtn">📋 수식 가져오기<br><span style="font-size:10.5px;font-weight:500;opacity:.75">(드래그 선택 후 클릭)</span></button>
+      <div class="api-section">
+        <div class="api-lbl">🤖 Groq API (서술형 AI 채점)</div>
+        <div class="api-row">
+          <input class="api-in" id="apiIn" type="password" placeholder="gsk_... 키 입력"/>
+          <button class="api-save" id="apiSaveBtn">저장</button>
+        </div>
+        <div class="api-status" id="apiStatus">키 없으면 키워드 기반 채점</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. 분리된 자바스크립트 파일들 연결 (순서 중요) -->
+<script src="js/core/constants.js"></script>
+<script src="js/core/state.js"></script>
+<script src="js/core/utils.js"></script>
+<script src="js/ui/renderer.js"></script>
+<script src="js/ui/keyboard.js"></script>
+<script src="js/ui/exam.js"></script>
+<script src="js/problems/bank.js"></script>
+
+<!-- 앱 초기 실행 로직 -->
 <script>
-    const curriculumData = {
-        'g1': ["다항식", "방정식과 부등식", "경우의 수", "행렬", "도형의 방정식", "집합과 명제", "함수와 그래프"],
-        'g2': ["지수함수와 로그함수", "삼각함수", "수열", "함수의 극한과 연속", "미분", "적분"],
-        'g3': ["수열의 극한", "미분법", "적분법", "경우의 수", "확률", "통계", "이차곡선", "공간도형과 공간좌표", "벡터"]
-    };
-
-    const problemDatabase = [
-        { id: 1, q: "x^3 - 6x^2 + 11x - 6 = 0", h1: "인수정리를 위해 계수들의 총합을 구해보세요. 총합이 0인 경우 어떤 값이 근이 될까요?", h2: "$x=1$을 대입하면 성립합니다. 1을 기준으로 조립제법을 시작하세요.", k: 1, coeffs: [1, -6, 11, -6], mid: ["", 1, -5, 6], res: [1, -5, 6, 0], factor: "(x^2 - 5x + 6)", factorFinal: "(x-2)(x-3)", ans: "x = 1, 2, 3" },
-        { id: 2, q: "2x^3 - 5x^2 + x + 2 = 0", h1: "상수항($2$)의 약수를 최고차항($2$)의 약수로 나눈 후보($\\pm 1, \\pm 2, \\pm \\frac{1}{2}$)를 대입해 보세요.", h2: "$x=2$를 대입하면 식이 성립합니다. 2로 조립제법을 수행하세요.", k: 2, coeffs: [2, -5, 1, 2], mid: ["", 4, -2, -2], res: [2, -1, -1, 0], factor: "(2x^2 - x - 1)", factorFinal: "(2x+1)(x-1)", ans: "x = 2, 1, -\\frac{1}{2}" },
-        { id: 3, q: "x^3 - 3x + 2 = 0", h1: "이차항이 생략된 경우입니다. 계수의 합을 구하여 간단한 정수근이 존재하는지 확인하세요.", h2: "이차항 자리에 0을 쓰고 $x=1$로 조립제법을 진행합니다.", k: 1, coeffs: [1, 0, -3, 2], mid: ["", 1, 1, -2], res: [1, 1, -2, 0], factor: "(x^2 + x - 2)", factorFinal: "(x+2)(x-1)", ans: "x = 1(\\text{중근}), -2" },
-        { id: 4, q: "3x^3 - 2x^2 - 7x - 2 = 0", h1: "유리수 근 정리를 떠올려 보세요. 상수항이 $-2$이므로 대입할 만한 정수와 분수 후보를 추려보세요.", h2: "$x=2$일 때 식이 0이 됩니다. $x=2$로 조립제법을 실행하세요.", k: 2, coeffs: [3, -2, -7, -2], mid: ["", 6, 8, 2], res: [3, 4, 1, 0], factor: "(3x^2 + 4x + 1)", factorFinal: "(3x+1)(x+1)", ans: "x = 2, -1, -\\frac{1}{3}" },
-        { id: 5, q: "x^3 - x^2 - 4x + 4 = 0", h1: "다항식 $P(x)$에 $1$이나 $-1$을 대입하여 인수정리가 성립하는지 먼저 확인하세요.", h2: "$x=1$로 조립제법을 수행하면 나머지가 0이 됩니다.", k: 1, coeffs: [1, -1, -4, 4], mid: ["", 1, 0, -4], res: [1, 0, -4, 0], factor: "(x^2 - 4)", factorFinal: "(x-2)(x+2)", ans: "x = 1, 2, -2" },
-        { id: 6, q: "4x^3 - 8x^2 - x + 2 = 0", h1: "최고차항 계수가 4입니다. 상수항의 약수 중에서 근을 찾아보고 정수가 없다면 분수를 고려하세요.", h2: "$x=2$를 대입하면 식이 성립합니다. 2를 제수로 조립제법 하세요.", k: 2, coeffs: [4, -8, -1, 2], mid: ["", 8, 0, -2], res: [4, 0, -1, 0], factor: "(4x^2 - 1)", factorFinal: "(2x-1)(2x+1)", ans: "x = 2, \\frac{1}{2}, -\\frac{1}{2}" },
-        { id: 7, q: "x^3 - 7x - 6 = 0", h1: "이차항 계수가 0일 때의 조립제법 배치에 주의하세요. 상수항 $-6$의 음의 약수 중 근을 찾아보세요.", h2: "$x=-1$을 대입하면 성립합니다. $-1$로 조립제법을 시작합니다.", k: -1, coeffs: [1, 0, -7, -6], mid: ["", -1, 1, 6], res: [1, -1, -6, 0], factor: "(x^2 - x - 6)", factorFinal: "(x-3)(x+2)", ans: "x = -1, 3, -2" },
-        { id: 8, q: "2x^3 + 3x^2 - 8x + 3 = 0", h1: "계수를 모두 더해보세요. 합이 0이 나온다면 어떤 일차식을 인수로 가지게 될까요?", h2: "$x=1$로 연산을 진행하면 몫이 이차식으로 깔끔하게 도출됩니다.", k: 1, coeffs: [2, 3, -8, 3], mid: ["", 2, 5, -3], res: [2, 5, -3, 0], factor: "(2x^2 + 5x - 3)", factorFinal: "(2x-1)(x+3)", ans: "x = 1, \\frac{1}{2}, -3" },
-        { id: 9, q: "x^3 - 3x^2 + 4 = 0", h1: "일차항이 생략되었습니다. 인수정리를 위해 $x$에 $-1$ 또는 $2$를 대입하여 계산해 보세요.", h2: "$x=-1$을 대입하면 0이 됩니다. 계수 $[1, -3, 0, 4]$를 연산하세요.", k: -1, coeffs: [1, -3, 0, 4], mid: ["", -1, 4, -4], res: [1, -4, 4, 0], factor: "(x^2 - 4x + 4)", factorFinal: "(x-2)^2", ans: "x = -1, 2(\\text{중근})" },
-        { id: 10, q: "5x^3 - 8x^2 - 27x + 18 = 0", h1: "최고차항 계수가 5이므로 분수 근($\\frac{3}{5}$ 등)의 가능성이 큽니다. 먼저 정수 후보 중 $3$을 대입해 보세요.", h2: "$x=3$으로 조립제법을 실행하면 인수분해의 실마리가 풀립니다.", k: 3, coeffs: [5, -8, -27, 18], mid: ["", 15, 21, -18], res: [5, 7, -6, 0], factor: "(5x^2 + 7x - 6)", factorFinal: "(5x-3)(x+2)", ans: "x = 3, \\frac{3}{5}, -2" },
-        { id: 11, q: "x^3 + 2x^2 - 5x - 6 = 0", h1: "상수항의 약수인 $\\pm 1, \\pm 2, \\pm 3, \\pm 6$ 중에서 식을 0으로 만드는 값을 탐색하세요.", h2: "$x=2$를 대입하면 식이 참이 됩니다. 2로 조립제법을 시작하세요.", k: 2, coeffs: [1, 2, -5, -6], mid: ["", 2, 8, 6], res: [1, 4, 3, 0], factor: "(x^2 + x + 3)(x + 1)? (x^2 + 4x + 3)", factorFinal: "(x+1)(x+3)", ans: "x = 2, -1, -3" },
-        { id: 12, q: "3x^3 + 8x^2 - 15x + 4 = 0", h1: "계수들의 총합을 먼저 확인하는 습관을 들이세요. 합이 0인가요?", h2: "$x=1$이 근이므로, 1을 기준으로 계수들을 조립제법 합니다.", k: 1, coeffs: [3, 8, -15, 4], mid: ["", 3, 11, -4], res: [3, 11, -4, 0], factor: "(3x^2 + 11x - 4)", factorFinal: "(3x-1)(x+4)", ans: "x = 1, \\frac{1}{3}, -4" },
-        { id: 13, q: "x^3 - 19x - 30 = 0", h1: "이차항 계수에 0을 넣는 것을 잊지 마세요. 상수항의 약수 중 근을 찾아보세요.", h2: "$x=-2$를 대입하면 성립합니다. $-2$로 조립제법을 진행하세요.", k: -2, coeffs: [1, 0, -19, -30], mid: ["", -2, 4, 30], res: [1, -2, -15, 0], factor: "(x^2 - 2x - 15)", factorFinal: "(x-5)(x+3)", ans: "x = -2, 5, -3" },
-        { id: 14, q: "2x^3 - x^2 - 13x - 6 = 0", h1: "상수항의 약수를 최고차항으로 나눈 유리수 근을 고려하여 $x$값을 대입해 보세요.", h2: "$x=3$일 때 식이 성립합니다. 3을 제수로 하여 연산하세요.", k: 3, coeffs: [2, -1, -13, -6], mid: ["", 6, 15, 6], res: [2, 5, 2, 0], factor: "(2x^2 + 5x + 2)", factorFinal: "(2x+1)(x+2)", ans: "x = 3, -\\frac{1}{2}, -2" },
-        { id: 15, q: "x^3 + 4x^2 + x - 6 = 0", h1: "계수들을 보았을 때, 가장 먼저 대입해 볼 만한 기초적인 정수 근은 무엇일까요?", h2: "계수 총합이 0이므로 $x=1$로 조립제법을 수행합니다.", k: 1, coeffs: [1, 4, 1, -6], mid: ["", 1, 5, 6], res: [1, 5, 6, 0], factor: "(x^2 + 5x + 6)", factorFinal: "(x+2)(x+3)", ans: "x = 1, -2, -3" },
-        { id: 16, q: "6x^3 - x^2 - 12x - 5 = 0", h1: "계수가 크고 복잡하지만 음수 근이 있을 확률이 높습니다. $-1$부터 대입해 보세요.", h2: "$x=-1$을 대입하면 나머지가 0이 도출됩니다.", k: -1, coeffs: [6, -1, -12, -5], mid: ["", -6, 7, 5], res: [6, -7, -5, 0], factor: "(6x^2 - 7x - 5)", factorFinal: "(2x+1)(3x-5)", ans: "x = -1, -\\frac{1}{2}, \\frac{5}{3}" },
-        { id: 17, q: "x^3 - x^2 - 10x - 8 = 0", h1: "상수항이 $-8$이므로 $\\pm 1, \\pm 2$ 주변에서 근이 생성되는지 확인해 보세요.", h2: "$x=-1$을 대입하면 0이 됩니다. $-1$을 기준으로 조립제법 하세요.", k: -1, coeffs: [1, -1, -10, -8], mid: ["", -1, 2, 8], res: [1, -2, -8, 0], factor: "(x^2 - 2x - 8)", factorFinal: "(x-4)(x+2)", ans: "x = -1, 4, -2" },
-        { id: 18, q: "2x^3 - 3x^2 - 11x + 6 = 0", h1: "상수항($6$)의 약수를 대입하여 인수정리를 시도하세요. 양의 정수 $3$을 추천합니다.", h2: "$x=3$으로 조립제법을 전개하여 이차식을 얻어내세요.", k: 3, coeffs: [2, -3, -11, 6], mid: ["", 6, 9, -6], res: [2, 3, -2, 0], factor: "(2x^2 + 3x - 2)", factorFinal: "(2x-1)(x+2)", ans: "x = 3, \\frac{1}{2}, -2" },
-        { id: 19, q: "x^3 - 4x^2 - 7x + 10 = 0", h1: "다항식의 모든 계수 합을 구해보세요. 그 값이 0이라면 어떤 일차 인수가 숨어 있을까요?", h2: "$x=1$을 대입하면 성립합니다. 1로 연산을 수행하세요.", k: 1, coeffs: [1, -4, -7, 10], mid: ["", 1, -3, -10], res: [1, -3, -10, 0], factor: "(x^2 - 3x - 10)", factorFinal: "(x-5)(x+2)", ans: "x = 1, 5, -2" },
-        { id: 20, q: "3x^3 - x^2 - 12x + 4 = 0", h1: "유리수 근 정리($k = p/q$)를 활용하세요. 상수항이 4이므로 $2$를 대입해 봅니다.", h2: "$x=2$일 때 방정식이 0이 됩니다. 2로 조립제법을 실행하세요.", k: 2, coeffs: [3, -1, -12, 4], mid: ["", 6, 10, -4], res: [3, 5, -2, 0], factor: "(3x^2 + 5x - 2)", factorFinal: "(3x-1)(x+2)", ans: "x = 2, \\frac{1}{3}, -2" },
-        { id: 21, q: "x^3 - 13x + 12 = 0", h1: "이차항이 비어 있습니다. 계수의 합을 통해 바로 근을 유추할 수 있는지 보세요.", h2: "계수 $[1, 0, -13, 12]$를 $x=1$로 조립제법 하여 분석합니다.", k: 1, coeffs: [1, 0, -13, 12], mid: ["", 1, 1, -12], res: [1, 1, -12, 0], factor: "(x^2 + x - 12)", factorFinal: "(x+4)(x-3)", ans: "x = 1, -4, 3" },
-        { id: 22, q: "2x^3 + 9x^2 + 3x - 4 = 0", h1: "음의 정수 근을 찾아보세요. 상수항이 $-4$이므로 $-1$ 또는 $-2$를 권장합니다.", h2: "$x=-1$을 대입하면 식이 성립합니다. $-1$로 조립제법 하세요.", k: -1, coeffs: [2, 9, 3, -4], mid: ["", -2, -7, 4], res: [2, 7, -4, 0], factor: "(2x^2 + 7x - 4)", factorFinal: "(2x-1)(x+4)", ans: "x = -1, \\frac{1}{2}, -4" },
-        { id: 23, q: "x^3 + 3x^2 - 4 = 0", h1: "일차항이 누락된 형태입니다. 간단한 정수를 넣어 인수정리를 시도하세요.", h2: "$x=1$을 대입하면 0이 됩니다. 계수 $[1, 3, 0, -4]$를 1로 연산하세요.", k: 1, coeffs: [1, 3, 0, -4], mid: ["", 1, 4, 4], res: [1, 4, 4, 0], factor: "(x^2 + 4x + 4)", factorFinal: "(x+2)^2", ans: "x = 1, -2(\\text{중근})" },
-        { id: 24, q: "4x^3 - 4x^2 - 7x - 2 = 0", h1: "유리수 근 후보군 중 $2$를 선택하여 식의 성립 여부를 확인하세요.", h2: "$x=2$로 조립제법을 수행하여 남은 이차식을 찾아냅니다.", k: 2, coeffs: [4, -4, -7, -2], mid: ["", 8, 8, 2], res: [4, 4, 1, 0], factor: "(4x^2 + 4x + 1)", factorFinal: "(2x+1)^2", ans: "x = 2, -\\frac{1}{2}(\\text{중근})" },
-        { id: 25, q: "x^3 + 6x^2 + 11x + 6 = 0", h1: "모든 항이 양수입니다. 그렇다면 근은 반드시 어떤 수(양/음)여야 할까요?", h2: "$x=-1$을 대입하면 나머지가 0이 됩니다. $-1$로 조립제법을 시작하세요.", k: -1, coeffs: [1, 6, 11, 6], mid: ["", -1, -5, -6], res: [1, 5, 6, 0], factor: "(x^2 + 5x + 6)", factorFinal: "(x+2)(x+3)", ans: "x = -1, -2, -3" }
-    ];
-
-    let problemHistory = new Set();
-    let activeProblem = null;
-    let activePreviousProblem = null;
-    let timerInstance = null;
-    let timeRemaining = 300;
-
-    function selectGrade(gradeKey, btnElement) {
-        document.querySelectorAll('.grade-btn').forEach(btn => btn.classList.remove('active'));
-        btnElement.classList.add('active');
-        selectedGrade = gradeKey;
-        selectedChapter = null;
-        updateStartButton();
-        const container = document.getElementById('chapter-container');
-        container.innerHTML = '';
-        curriculumData[gradeKey].forEach(chapter => {
-            const btn = document.createElement('button');
-            btn.className = 'chapter-btn';
-            btn.innerText = chapter;
-            btn.onclick = () => selectChapter(chapter, btn);
-            container.appendChild(btn);
-        });
-        requestAnimationFrame(() => drawTreeLine(btnElement));
-    }
-
-    function selectChapter(chapterName, btnElement) {
-        document.querySelectorAll('.chapter-btn').forEach(btn => btn.classList.remove('active'));
-        btnElement.classList.add('active');
-        selectedChapter = chapterName;
-        updateStartButton();
-    }
-
-    function updateStartButton() {
-        const startBtn = document.getElementById('start-app-btn');
-        startBtn.disabled = !(selectedGrade && selectedChapter);
-    }
-
-    function drawTreeLine(activeGradeBtn) {
-        const svg = document.getElementById('tree-svg');
-        const chapters = document.querySelectorAll('.chapter-btn');
-        if (!activeGradeBtn || chapters.length === 0) return;
-        svg.innerHTML = '';
-        const svgRect = svg.getBoundingClientRect();
-        const gradeRect = activeGradeBtn.getBoundingClientRect();
-        const startX = gradeRect.left + gradeRect.width / 2 - svgRect.left;
-        const firstRect = chapters[0].getBoundingClientRect();
-        const lastRect = chapters[chapters.length - 1].getBoundingClientRect();
-        const minX = firstRect.left + firstRect.width / 2 - svgRect.left;
-        const maxX = lastRect.left + lastRect.width / 2 - svgRect.left;
-        const lineMinX = Math.min(minX, startX);
-        const lineMaxX = Math.max(maxX, startX);
-        let pathData = `M ${startX} 0 L ${startX} 18 M ${lineMinX} 18 L ${lineMaxX} 18 `;
-        chapters.forEach(ch => {
-            const r = ch.getBoundingClientRect();
-            const cx = r.left + r.width / 2 - svgRect.left;
-            pathData += `M ${cx} 18 L ${cx} 35 `;
-        });
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('d', pathData);
-        path.setAttribute('stroke', '#1A73E8');
-        path.setAttribute('stroke-width', '2.5');
-        path.setAttribute('fill', 'none');
-        svg.appendChild(path);
-    }
-
-    function initSimulator() {
-        document.getElementById('intro-view').classList.remove('view-active');
-        document.getElementById('main-view').classList.add('view-active');
-        renderMath();
-    }
-
-    function renderMath() {
-        renderMathInElement(document.body, {
-            delimiters: [{left: "$$", right: "$$", display: true}, {left: "$", right: "$", display: false}],
-            throwOnError: false
-        });
-    }
-
-    function resetDatabase() {
-        problemHistory.clear();
-        activePreviousProblem = null;
-        resetWorkspace();
-    }
-
-    function fetchProblemData() {
-        const displayArea = document.getElementById('math-display');
-        const loaderArea = document.getElementById('prob-loading');
-        loaderArea.style.display = 'flex'; displayArea.style.display = 'none';
-        setTimeout(() => {
-            let availableData = problemDatabase.filter(p => !problemHistory.has(p.id));
-            if (availableData.length === 0) {
-                activeProblem = activePreviousProblem ? activePreviousProblem : problemDatabase[problemDatabase.length - 1];
-            } else {
-                activeProblem = availableData[Math.floor(Math.random() * availableData.length)];
-                problemHistory.add(activeProblem.id);
-                activePreviousProblem = activeProblem;
-            }
-            loaderArea.style.display = 'none'; displayArea.style.display = 'flex';
-            displayArea.className = "math-main";
-            displayArea.innerText = "$$" + activeProblem.q + "$$";
-            document.getElementById('h1-text').innerText = activeProblem.h1;
-            document.getElementById('h2-text').innerText = activeProblem.h2;
-            document.getElementById('h1-btn').disabled = false;
-            document.getElementById('h2-btn').disabled = false;
-            document.getElementById('solve-btn').disabled = false;
-            renderMath();
-        }, 4500);
-    }
-
-    function toggleTimer() {
-        const btn = document.getElementById('timer-btn');
-        if (timerInstance) {
-            clearInterval(timerInstance);
-            timerInstance = null;
-            btn.innerText = "⏳ 재개";
-        } else {
-            btn.innerText = "⏹️ 중지";
-            timerInstance = setInterval(() => {
-                if (timeRemaining > 0) {
-                    timeRemaining--;
-                    updateTimerUI();
-                } else {
-                    clearInterval(timerInstance);
-                    timerInstance = null;
-                    btn.innerText = "⏳ 타이머";
-                }
-            }, 1000);
-        }
-    }
-
-    function updateTimerUI() {
-        const min = Math.floor(timeRemaining / 60); const sec = timeRemaining % 60;
-        document.getElementById('timer').innerText = `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
-    }
-
-    function revealScaffolding(n) { document.getElementById(`hint-${n}`).style.display = 'block'; }
-
-    function processAIAnalysis() {
-        if(timerInstance) { clearInterval(timerInstance); timerInstance = null; document.getElementById('timer-btn').innerText = "⏳ 타이머"; }
-        document.getElementById('sol-view').style.display = 'none';
-        document.getElementById('ai-sol-label').style.display = 'none';
-        document.getElementById('ai-loading').style.display = 'flex';
-        const processSteps = ["방정식 차수 분석 중...", "계수 추출 및 행렬 구성 중...", "조립제법 알고리즘 연산 중..."];
-        let stepIdx = 0;
-        const processTimer = setInterval(() => {
-            document.getElementById('ai-ment').innerText = processSteps[stepIdx % 3];
-            stepIdx++;
-        }, 2000);
-        setTimeout(() => {
-            clearInterval(processTimer);
-            document.getElementById('ai-loading').style.display = 'none';
-            document.getElementById('ai-sol-label').style.display = 'block';
-            document.getElementById('sol-view').style.display = 'flex';
-            renderAIResponse();
-        }, 7000);
-    }
-
-    function renderAIResponse() {
-        const target = document.getElementById('sol-stream');
-        const footer = document.getElementById('sol-footer');
-        target.innerHTML = ""; footer.style.display = "none";
-
-        const tableHTML = `
-            <div style="margin: 10px 0; display:flex; justify-content:center;">
-                <table class="synth-table">
-                    <tr>
-                        <td style="color:var(--gemini-blue); font-weight:bold;">${activeProblem.k}</td>
-                        <td class="synth-border-left">${activeProblem.coeffs[0]}</td>
-                        <td>${activeProblem.coeffs[1]}</td>
-                        <td>${activeProblem.coeffs[2]}</td>
-                        <td>${activeProblem.coeffs[3]}</td>
-                    </tr>
-                    <tr><td></td><td class="synth-border-left"></td><td style="color:#8E75FF;">${activeProblem.mid[1]}</td><td style="color:#8E75FF;">${activeProblem.mid[2]}</td><td style="color:#8E75FF;">${activeProblem.mid[3]}</td></tr>
-                    <tr class="synth-border-bottom"><td colspan="5" style="height:0; padding:0;"></td></tr>
-                    <tr><td></td><td>${activeProblem.res[0]}</td><td>${activeProblem.res[1]}</td><td>${activeProblem.res[2]}</td><td class="remainder">${activeProblem.res[3]}</td></tr>
-                </table>
-            </div>
-        `;
-
-        const signK = activeProblem.k < 0 ? '+' : '-';
-        const absK = Math.abs(activeProblem.k);
-        const factorStr = `(x ${signK} ${absK})`;
-
-        const analysisData = [
-            `<b>1. 인수정리:</b> $P(${activeProblem.k}) = 0$임을 확인하여 일차인수 $${factorStr}$를 추출합니다.`,
-            `<b>2. 조립제법 실행:</b> 식의 계수 $[${activeProblem.coeffs.join(', ')}]$을 사용하여 나눗셈을 수행합니다.`,
-            tableHTML,
-            `<b>3. 1차 인수분해 결과:</b> 조립제법을 통해 다항식을 다음과 같이 1차 분해합니다. <br> &nbsp;&nbsp; $\\Rightarrow ${factorStr}${activeProblem.factor} = 0$`,
-            `<b>4. 2차 인수분해 결과:</b> 몫으로 남은 이차식을 한 번 더 인수분해합니다. <br> &nbsp;&nbsp; $\\Rightarrow ${factorStr}${activeProblem.factorFinal} = 0$`,
-            `<b>5. 근의 도출:</b> 각 인수가 0이 되게 하는 모든 실근을 산출합니다.`
-        ];
-
-        let index = 0;
-        function renderStep() {
-            if (index < analysisData.length) {
-                const div = document.createElement('div');
-                div.style.marginBottom = "10px"; div.style.opacity = "0";
-                div.innerHTML = analysisData[index];
-                target.appendChild(div);
-                setTimeout(() => { div.style.transition = "opacity 0.6s"; div.style.opacity = "1"; renderMath(); }, 50);
-                index++;
-                setTimeout(renderStep, 1000);
-            } else {
-                footer.style.display = "flex";
-                footer.innerHTML = `
-                    <span style="flex-shrink:0;">정답</span>
-                    <div style="width:2.5px; height:35px; background:#1967D2; margin:0 25px; opacity:0.2;"></div>
-                    <div style="flex:1; text-align:center;">$ ${activeProblem.ans} $</div>
-                `;
-                renderMath();
-            }
-        }
-        renderStep();
-    }
-
-    function resetWorkspace() {
-        const mathDisplay = document.getElementById('math-display');
-        mathDisplay.innerHTML = "하단의 <span class='trigger-btn'>🎲 문제 생성</span> 버튼을 클릭하세요.";
-        mathDisplay.className = "placeholder-text";
-        document.getElementById('hint-1').style.display = 'none';
-        document.getElementById('hint-2').style.display = 'none';
-        document.getElementById('sol-view').style.display = 'none';
-        document.getElementById('ai-sol-label').style.display = 'none';
-        document.getElementById('ai-loading').style.display = 'none';
-        document.getElementById('h1-btn').disabled = true;
-        document.getElementById('h2-btn').disabled = true;
-        document.getElementById('solve-btn').disabled = true;
-        timeRemaining = 300; updateTimerUI();
-    }
-
-    window.onload = renderMath;
+  window.onload = () => {
+    if (typeof initApp === 'function') initApp();
+    // 테마 및 기타 초기화가 필요한 경우 여기서 호출 가능합니다.
+  };
 </script>
+
 </body>
 </html>
